@@ -2,15 +2,27 @@
 
 ## Build & run a local image
 
-### Individual build of Sales Portal WebAssembly
+All the examples are made with Docker CLI.
 
-Create an image with `docker build . -t salesportalwasm -f src/BlazorWasmApp/Dockerfile`.
+### Docker compose
 
-Runs the image with `docker run -it --rm -p 9001:80 -e ASPNETCORE_ENVIRONMENT=Development salesportalwasm`.
+All the definitions are written in `compose.yaml` file at the root of the repository.
+
+Build images with `docker compose build`.
+
+Use `docker compose <up|start|stop|down>` to manage running container.
 
 Open [localhost:9001](http://localhost:9001/) in a browser.
 
-### Invidual build of CRM Adapter Web API
+### Sales Portal WebAssembly image
+
+Create an image with `docker build . -t salesportalwasmapp -f src/BlazorWasmApp/Dockerfile`.
+
+Runs the image with `docker run -it --rm -p 9001:80 -e ASPNETCORE_ENVIRONMENT=Development salesportalwasmapp`.
+
+Open [localhost:9001](http://localhost:9001/) in a browser.
+
+### CRM Adapter Web API image
 
 Create an image with `docker build . -t crmadapterwebapi -f src/CrmAdapterWebApi/Dockerfile`.
 

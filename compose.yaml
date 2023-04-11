@@ -1,0 +1,27 @@
+services:
+  frontend:
+    image: salesportalwasmapp
+    build:
+      context: .
+      dockerfile: ./src/BlazorWasmApp/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "9001:80"
+    depends_on:
+      - backend
+  backend:
+    image: crmadapterwebapi
+    build:
+      context: .
+      dockerfile: ./src/CrmAdapterWebApi/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "9002:80"
+    depends_on:
+      - database
+  database:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
