@@ -10,9 +10,11 @@ insert_final_newline = true
 trim_trailing_whitespace = true
 
 # Code files with 4 spaces indentation
-[*.{cs,csx,razor,sln,vb,vbx}]
+[*.{cs,csx,razor,sln}]
 indent_size = 4
 charset = utf-8-bom
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 4
 
 # Markdown files
 [*.md]
@@ -24,7 +26,7 @@ trim_trailing_whitespace = false
 indent_size = 2
 
 # XML project files
-[*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
+[*.{csproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
 indent_size = 2
 
 # Script & configuration files
@@ -75,7 +77,7 @@ dotnet_naming_style.non_private_static_field_style.capitalization = pascal_case
 # Non-private readonly fields are PascalCase
 dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.symbols = non_private_readonly_fields
-dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.style = non_private_readonly_field_style
+dotnet_naming_rule.non_private_readonly_fields_should_be_pascal_case.style = non_private_static_field_style
 
 dotnet_naming_symbols.non_private_readonly_fields.applicable_kinds = field
 dotnet_naming_symbols.non_private_readonly_fields.applicable_accessibilities = public, protected, internal, protected_internal, private_protected
@@ -86,7 +88,7 @@ dotnet_naming_style.non_private_readonly_field_style.capitalization = pascal_cas
 # Constants are PascalCase
 dotnet_naming_rule.constants_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.constants_should_be_pascal_case.symbols = constants
-dotnet_naming_rule.constants_should_be_pascal_case.style = constant_style
+dotnet_naming_rule.constants_should_be_pascal_case.style = non_private_static_field_style
 
 dotnet_naming_symbols.constants.applicable_kinds = field, local
 dotnet_naming_symbols.constants.required_modifiers = const
@@ -126,7 +128,7 @@ dotnet_naming_style.camel_case_style.capitalization = camel_case
 # Local functions are PascalCase
 dotnet_naming_rule.local_functions_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.local_functions_should_be_pascal_case.symbols = local_functions
-dotnet_naming_rule.local_functions_should_be_pascal_case.style = local_function_style
+dotnet_naming_rule.local_functions_should_be_pascal_case.style = non_private_static_field_style
 
 dotnet_naming_symbols.local_functions.applicable_kinds = local_function
 
@@ -135,7 +137,7 @@ dotnet_naming_style.local_function_style.capitalization = pascal_case
 # By default, name items with PascalCase
 dotnet_naming_rule.members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.members_should_be_pascal_case.symbols = all_members
-dotnet_naming_rule.members_should_be_pascal_case.style = pascal_case_style
+dotnet_naming_rule.members_should_be_pascal_case.style = non_private_static_field_style
 
 dotnet_naming_symbols.all_members.applicable_kinds = *
 
@@ -234,11 +236,16 @@ csharp_prefer_braces = true:silent
 csharp_preserve_single_line_blocks = true
 csharp_preserve_single_line_statements = true
 
-# Currently only enabled for C# due to crash in VB analyzer.  VB can be enabled once
-# https://github.com/dotnet/roslyn/pull/54259 has been published.
 dotnet_style_allow_statement_immediately_after_block_experimental = false
+csharp_using_directive_placement = outside_namespace:silent
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_namespace_declarations = block_scoped:silent
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = false:silent
 
-[src/CodeStyle/**.{cs,vb}]
+[src/CodeStyle/**.cs]
 # warning RS0005: Do not use generic CodeAction.Create to create CodeAction
 dotnet_diagnostic.RS0005.severity = none
 
@@ -292,7 +299,7 @@ dotnet_diagnostic.IDE2003.severity = warning
 # csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental
 dotnet_diagnostic.IDE2004.severity = warning
 
-[src/{VisualStudio}/**/*.{cs,vb}]
+[src/{VisualStudio}/**/*.cs]
 # CA1822: Make member static
 # There is a risk of accidentally breaking an internal API that partners rely on though IVT.
 dotnet_code_quality.CA1822.api_surface = private
