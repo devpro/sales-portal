@@ -2,7 +2,7 @@
 
 ## Build & run a local image
 
-All the examples are made with Docker CLI.
+Examples are made with Docker CLI.
 
 ### Docker compose
 
@@ -29,3 +29,7 @@ Create an image with `docker build . -t crmadapterwebapi -f src/CrmAdapterWebApi
 Runs the image with `docker run -it --rm -p 9002:80 -e ASPNETCORE_ENVIRONMENT=Development crmadapterwebapi`.
 
 Open [localhost:9002/swagger](http://localhost:9002/swagger) in a browser.
+
+## Debug
+
+Use Chrome to be able to debug the Blazor WebAssembly application (breakpoints are not hit in Firefox). In Visual Studio 2022, click on the Run menu (displaying http for example) and select Chrome as browser.

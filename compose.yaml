@@ -17,6 +17,7 @@ services:
       dockerfile: ./src/CrmAdapterWebApi/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - AllowedOrigins__0=http://localhost:9001
     ports:
       - "9002:80"
     depends_on:
