@@ -1,6 +1,6 @@
 ﻿// creates the builder
 var builder = WebApplication.CreateBuilder(args);
-var configuration = new Devpro.SalesPortal.CrmAdapterWebApi.Configuration.ApplicationConfiguration(builder.Configuration);
+var configuration = new WebApiConfiguration(builder.Configuration);
 
 // add services to the container
 builder.Services.AddCors(configuration.CorsPolicyName, configuration.CorsAllowedOrigin);

@@ -1,12 +1,13 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.OpenApi.Models;
 
-namespace Devpro.SalesPortal.CrmAdapterWebApi.Configuration
+namespace Devpro.Common.AspNetCore.Configuration
 {
-    public class ApplicationConfiguration
+    public class WebApiConfiguration
     {
         private readonly IConfiguration _configuration;
 
-        public ApplicationConfiguration(IConfigurationRoot configurationRoot)
+        public WebApiConfiguration(IConfigurationRoot configurationRoot)
         {
             _configuration = configurationRoot;
         }

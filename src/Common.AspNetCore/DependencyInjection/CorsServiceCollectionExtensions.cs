@@ -1,4 +1,6 @@
-﻿namespace Devpro.SalesPortal.CrmAdapterWebApi.DependencyInjection
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace Devpro.Common.AspNetCore.DependencyInjection
 {
     public static class CorsServiceCollectionExtensions
     {

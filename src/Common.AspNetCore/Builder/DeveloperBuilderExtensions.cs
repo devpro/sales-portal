@@ -1,4 +1,8 @@
-﻿namespace Devpro.SalesPortal.CrmAdapterWebApi.Builder
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+
+namespace Devpro.Common.AspNetCore.Builder
 {
     public static class DeveloperBuilderExtensions
     {
