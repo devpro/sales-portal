@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyName>Devpro.SalesPortal.CrmDataWebApi</AssemblyName>
+    <RootNamespace>Devpro.SalesPortal.CrmDataWebApi</RootNamespace>
+    <ProjectGuid>{60A2DB4F-03C2-4A98-8BAF-1D5E89F7DE14}</ProjectGuid>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>8240859b-d0ac-4c38-a984-7e1bc5acd9e4</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common.AspNetCore\Common.AspNetCore.csproj" />
+    <ProjectReference Include="..\SalesDomain\SalesDomain.csproj" />
+  </ItemGroup>
+
+</Project>
