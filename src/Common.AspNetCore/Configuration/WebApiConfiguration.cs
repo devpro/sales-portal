@@ -1,15 +1,17 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 
 namespace Devpro.Common.AspNetCore.Configuration
 {
     public class WebApiConfiguration
     {
-        private readonly IConfiguration _configuration;
+        protected IConfigurationRoot ConfigurationRoot { get; }
 
         public WebApiConfiguration(IConfigurationRoot configurationRoot)
         {
-            _configuration = configurationRoot;
+            ConfigurationRoot = configurationRoot;
         }
 
         // flags
@@ -36,11 +38,11 @@ namespace Devpro.Common.AspNetCore.Configuration
 
         public string OpenTelemetryCollectorEndpoint => TryGetSection("OpenTelemetry:CollectorEndpoint").Get<string>() ?? "";
 
-        // private methods
+        // protected methods
 
-        private IConfigurationSection TryGetSection(string sectionKey)
+        protected IConfigurationSection TryGetSection(string sectionKey)
         {
-            return _configuration.GetSection(sectionKey)
+            return ConfigurationRoot.GetSection(sectionKey)
                 ?? throw new ArgumentException("Missing section \"" + sectionKey + "\" in configuration", nameof(sectionKey));
         }
     }

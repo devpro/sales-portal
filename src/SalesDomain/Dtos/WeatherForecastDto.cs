@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Devpro.SalesPortal.SalesDomain
+namespace Devpro.SalesPortal.SalesDomain.Dtos
 {
     public class WeatherForecastDto
     {

@@ -1,6 +1,6 @@
 ﻿namespace Devpro.SalesPortal.SalesDomain.Dtos
 {
-    public class OpportunityDto
+    public class OpportunityDto : IDto
     {
         public string Id { get; set; } = string.Empty;
 

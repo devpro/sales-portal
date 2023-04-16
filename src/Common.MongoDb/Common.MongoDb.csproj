@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyName>Devpro.Common.MongoDb</AssemblyName>
+    <RootNamespace>Devpro.Common.MongoDb</RootNamespace>
+    <ProjectGuid>{1ECBBB73-7867-4B45-9BEC-E5E3AF5F5D4F}</ProjectGuid>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Bson" Version="2.19.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.19.1" />
+  </ItemGroup>
+
+</Project>

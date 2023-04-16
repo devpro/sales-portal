@@ -3,9 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Devpro.Common.AspNetCore</AssemblyName>
-    <RootNamespace>Devpro.coCommon.AspNetCore</RootNamespace>
+    <RootNamespace>Devpro.Common.AspNetCore</RootNamespace>
     <ProjectGuid>{1ECBBB73-7867-4B45-9BEC-E5E3AF5F5D4F}</ProjectGuid>
-    <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

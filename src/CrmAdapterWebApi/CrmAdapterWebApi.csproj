@@ -7,7 +7,6 @@
     <ProjectGuid>{190D535C-CBD8-4EC6-BA2D-6B324F3A3638}</ProjectGuid>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>7b10ce9e-1c7d-40a7-884d-8ae0d5b7b3cb</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

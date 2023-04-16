@@ -1,9 +1,11 @@
 ﻿// creates the builder
 var builder = WebApplication.CreateBuilder(args);
-var configuration = new WebApiConfiguration(builder.Configuration);
+var configuration = new ApplicationConfiguration(builder.Configuration);
 
 // add services to the container
 builder.Services.AddCors(configuration.CorsPolicyName, configuration.CorsAllowedOrigin);
+builder.Services.AddMapping();
+builder.Services.AddInfrastructure(configuration.MongoDbConfiguration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
