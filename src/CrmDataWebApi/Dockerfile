@@ -17,4 +17,4 @@ RUN dotnet publish "CrmDataWebApi.csproj" -c Release -o /app/publish /p:UseAppHo
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Devpro.SalesPortalCrmDataWebApi.dll"]
+ENTRYPOINT ["dotnet", "Devpro.SalesPortal.CrmDataWebApi.dll"]

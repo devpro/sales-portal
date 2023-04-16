@@ -30,6 +30,14 @@ Runs the image with `docker run -it --rm -p 9002:80 -e ASPNETCORE_ENVIRONMENT=De
 
 Open [localhost:9002/swagger](http://localhost:9002/swagger) in a browser.
 
+### CRM Data Web API image
+
+Create an image with `docker build . -t crmdatawebapi -f src/CrmDataWebApi/Dockerfile`.
+
+Runs the image with `docker run -it --rm -p 9002:80 -e ASPNETCORE_ENVIRONMENT=Development crmdatawebapi`.
+
+Open [localhost:9003/swagger](http://localhost:9003/swagger) in a browser.
+
 ## Debug
 
 Use Chrome to be able to debug the Blazor WebAssembly application (breakpoints are not hit in Firefox). In Visual Studio 2022, click on the Run menu (displaying http for example) and select Chrome as browser.
