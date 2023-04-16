@@ -21,7 +21,7 @@ namespace Devpro.SalesPortal.CrmDataWebApi.Controllers
         [HttpGet]
         [ProducesResponseType(200)]
         [ProducesResponseType(500)]
-        public virtual async Task<ActionResult<List<T>>> GetAsync()
+        public virtual async Task<ActionResult<List<T>>> Get()
         {
             var items = await _repository.FindAllAsync();
             _logger.LogDebug("Number of items found: {0}", items.Count);
@@ -33,7 +33,7 @@ namespace Devpro.SalesPortal.CrmDataWebApi.Controllers
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
         [ProducesResponseType(500)]
-        public async Task<ActionResult<T>> GetByIdAsync(string? id)
+        public async Task<ActionResult<T>> GetById(string? id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -54,8 +54,8 @@ namespace Devpro.SalesPortal.CrmDataWebApi.Controllers
         public async Task<IActionResult> Post([FromBody] T input)
         {
             var item = await _repository.CreateAsync(input);
-            // TODO: bug here (needs specific method name)
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = item.Id }, item);
+            // beware: ASP.NET removes "Async" from method names (see https://stackoverflow.com/a/63834605/12866734)
+            return CreatedAtAction(nameof(GetById), new { id = item.Id }, item);
         }
 
         [HttpPut("{id}")]
