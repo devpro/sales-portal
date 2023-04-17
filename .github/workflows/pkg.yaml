@@ -38,18 +38,18 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Push image to container registry
         run: |
-          docker push IMAGE_FOLDER/salesportal-wasmapp:$IMAGE_TAG
-          docker push IMAGE_FOLDER/salesportal-crmadapterwebapi:$IMAGE_TAG
-          docker push IMAGE_FOLDER/salesportal-crmdatawebapi:$IMAGE_TAG
+          docker push $IMAGE_FOLDER/salesportal-wasmapp:$IMAGE_TAG
+          docker push $IMAGE_FOLDER/salesportal-crmadapterwebapi:$IMAGE_TAG
+          docker push $IMAGE_FOLDER/salesportal-crmdatawebapi:$IMAGE_TAG
       - name: Push latest tag to container registry
         run: |
-          docker tag IMAGE_FOLDER/salesportal-wasmapp:$IMAGE_TAG IMAGE_FOLDER/salesportal-wasmapp:latest
+          docker tag IMAGE_FOLDER/salesportal-wasmapp:$IMAGE_TAG $IMAGE_FOLDER/salesportal-wasmapp:latest
           docker push IMAGE_FOLDER/salesportal-wasmapp:latest
-          docker tag IMAGE_FOLDER/salesportal-crmadapterwebapi:$IMAGE_TAG IMAGE_FOLDER/salesportal-crmadapterwebapi:latest
+          docker tag IMAGE_FOLDER/salesportal-crmadapterwebapi:$IMAGE_TAG $IMAGE_FOLDER/salesportal-crmadapterwebapi:latest
           docker push IMAGE_FOLDER/salesportal-crmadapterwebapi:latest
-          docker tag IMAGE_FOLDER/salesportal-crmdatawebapi:$IMAGE_TAG IMAGE_FOLDER/salesportal-crmdatawebapi:latest
+          docker tag IMAGE_FOLDER/salesportal-crmdatawebapi:$IMAGE_TAG $IMAGE_FOLDER/salesportal-crmdatawebapi:latest
           docker push IMAGE_FOLDER/salesportal-crmdatawebapi:latest
     env:
       CONTAINER_REGITRY_DOMAIN: docker.io
       IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
-      IMAGE_TAG: "1.0.$GITHUB_RUN_ID"
+      IMAGE_TAG: 1.0.$GITHUB_RUN_ID

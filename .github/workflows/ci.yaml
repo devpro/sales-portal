@@ -50,9 +50,9 @@ jobs:
         run: sudo systemctl stop mongod
       - name: Build container images
         run: |
-            docker build . --file src/BlazorWasmApp/Dockerfile --tag IMAGE_FOLDER/salesportal-wasmapp:$IMAGE_TAG
-            docker build . --file src/CrmAdapterWebApi/Dockerfile --tag IMAGE_FOLDER/salesportal-crmadapterwebapi:$IMAGE_TAG
-            docker build . --file src/CrmDataWebApi/Dockerfile --tag IMAGE_FOLDER/salesportal-crmdatawebapi:$IMAGE_TAG
+            docker build . --file src/BlazorWasmApp/Dockerfile --tag $IMAGE_FOLDER/salesportal-wasmapp:$IMAGE_TAG
+            docker build . --file src/CrmAdapterWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmadapterwebapi:$IMAGE_TAG
+            docker build . --file src/CrmDataWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmdatawebapi:$IMAGE_TAG
     env:
       IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
-      IMAGE_TAG: "1.0.$GITHUB_RUN_ID"
+      IMAGE_TAG: 1.0.$GITHUB_RUN_ID
