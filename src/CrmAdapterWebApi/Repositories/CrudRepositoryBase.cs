@@ -1,5 +1,12 @@
 ﻿namespace Devpro.SalesPortal.CrmAdapterWebApi.Repositories
 {
+    /// <summary>
+    /// References:
+    /// - https://github.com/davidfowl/TodoApi/blob/main/Todo.Web/Client/TodoClient.cs
+    /// - https://github.com/devpro/almops/blob/master/src/AzureDevOpsComponent.Infrastructure.RestApi/Repositories/RepositoryBase.cs
+    /// - https://github.com/devpro/withywoods/blob/master/src/Net.Http/HttpRepositoryBase.cs
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public abstract class CrudRepositoryBase<T> : ICrudRepository<T>
     {
         protected CrudRepositoryBase(ILogger logger, HttpClient client)

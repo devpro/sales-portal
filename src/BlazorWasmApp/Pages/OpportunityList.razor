@@ -1,0 +1,42 @@
+﻿@page "/opportunities"
+@inject HttpClient Http
+
+<PageTitle>Opportunities</PageTitle>
+
+<h1>Sales opportunities</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (opportunities == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var opportunity in opportunities)
+            {
+                <tr>
+                    <td>@opportunity.Id</td>
+                    <td>@opportunity.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private OpportunityDto[]? opportunities;
+
+    protected override async Task OnInitializedAsync()
+    {
+        opportunities = await Http.GetFromJsonAsync<OpportunityDto[]>("opportunities");
+    }
+}
