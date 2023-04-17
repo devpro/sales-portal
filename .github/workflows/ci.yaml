@@ -25,11 +25,6 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
-      - name: Build container images
-        run: |
-            docker build . --file src/BlazorWasmApp/Dockerfile --tag $IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }}
-            docker build . --file src/CrmAdapterWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}
-            docker build . --file src/CrmDataWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}
       - name: Install .NET
         uses: actions/setup-dotnet@v3
         with:
@@ -53,6 +48,11 @@ jobs:
         run: dotnet test --no-build --verbosity normal
       - name: Stop MongoDB
         run: sudo systemctl stop mongod
+      - name: Build container images
+        run: |
+            docker build . --file src/BlazorWasmApp/Dockerfile --tag $IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }}
+            docker build . --file src/CrmAdapterWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}
+            docker build . --file src/CrmDataWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}
     env:
       IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
       IMAGE_TAG: 1.0.${GITHUB_RUN_ID}
