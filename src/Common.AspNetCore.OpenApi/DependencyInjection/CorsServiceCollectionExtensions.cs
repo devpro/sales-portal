@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Devpro.Common.AspNetCore.DependencyInjection
+namespace Devpro.Common.AspNetCore.WebApi.DependencyInjection
 {
     public static class CorsServiceCollectionExtensions
     {

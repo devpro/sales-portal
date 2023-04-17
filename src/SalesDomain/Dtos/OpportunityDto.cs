@@ -1,4 +1,6 @@
-﻿namespace Devpro.SalesPortal.SalesDomain.Dtos
+﻿using Devpro.Common.AspNetCore.Mvc;
+
+namespace Devpro.SalesPortal.SalesDomain.Dtos
 {
     public class OpportunityDto : IDto
     {

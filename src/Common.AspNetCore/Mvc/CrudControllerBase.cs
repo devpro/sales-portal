@@ -1,18 +1,18 @@
-﻿using Devpro.SalesPortal.CrmDataWebApi.Repositories;
-using Devpro.SalesPortal.SalesDomain.Dtos;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
-namespace Devpro.SalesPortal.CrmDataWebApi.Controllers
+namespace Devpro.Common.AspNetCore.Mvc
 {
-    public abstract class CrudControllerBase<T, U> : ControllerBase
+    public abstract class CrudControllerBase<T> : ControllerBase
         where T : IDto
-        where U : IMongoDbEntity
     {
         private readonly ILogger _logger;
 
-        private readonly ICrudRepository<T, U> _repository;
+        private readonly ICrudRepository<T> _repository;
 
-        protected CrudControllerBase(ILogger logger, ICrudRepository<T, U> repository)
+        protected CrudControllerBase(ILogger logger, ICrudRepository<T> repository)
         {
             _logger = logger;
             _repository = repository;

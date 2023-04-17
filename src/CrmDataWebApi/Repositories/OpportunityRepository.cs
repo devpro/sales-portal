@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Devpro.Common.MongoDb;
 using Devpro.SalesPortal.CrmDataWebApi.Entities;
 using Devpro.SalesPortal.SalesDomain.Dtos;
 

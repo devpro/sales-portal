@@ -1,7 +1,6 @@
-﻿using Devpro.SalesPortal.SalesDomain.Dtos;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Devpro.SalesPortal.CrmDataWebApi.Controllers
+namespace Devpro.SalesPortal.CrmAdapterWebApi.Controllers
 {
     [ApiController]
     [Route("opportunities")]

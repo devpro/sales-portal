@@ -1,12 +1,11 @@
 ﻿using AutoMapper;
-using Devpro.SalesPortal.CrmDataWebApi.Entities;
 using Devpro.SalesPortal.CrmDataWebApi.Repositories;
 using Devpro.SalesPortal.SalesDomain.Dtos;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Devpro.SalesPortal.CrmDataWebApi.DependencyInjection
 {
-    public static class ServiceCollectionExtensions
+    internal static class ServiceCollectionExtensions
     {
         internal static IServiceCollection AddMapping(this IServiceCollection services)
         {
@@ -30,8 +29,8 @@ namespace Devpro.SalesPortal.CrmDataWebApi.DependencyInjection
             // MongoDB
             services.AddSingleton(mongoDbConfiguration);
             services.TryAddSingleton<IMongoClientFactory, DefaultMongoClientFactory>();
-            services.TryAddScoped<ICrudRepository<CustomerDto, Customer>, CustomerRepository>();
-            services.TryAddScoped<ICrudRepository<OpportunityDto, Opportunity>, OpportunityRepository>();
+            services.TryAddScoped<ICrudRepository<CustomerDto>, CustomerRepository>();
+            services.TryAddScoped<ICrudRepository<OpportunityDto>, OpportunityRepository>();
 
             return services;
         }

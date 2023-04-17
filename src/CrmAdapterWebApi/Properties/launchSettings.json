@@ -6,7 +6,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AllowedOrigins__0": "http://localhost:5268",
+        "CrmDataWebApi__Url": "http://localhost:5157"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5261"
@@ -16,7 +18,10 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "AllowedOrigins__0": "http://localhost:5268",
+        "AllowedOrigins__1": "https://localhost:7212",
+        "CrmDataWebApi__Url": "http://localhost:7179"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7021;http://localhost:5261"

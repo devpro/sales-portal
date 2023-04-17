@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 
-namespace Devpro.Common.AspNetCore.Configuration
+namespace Devpro.Common.AspNetCore.WebApi.Configuration
 {
     public class WebApiConfiguration
     {

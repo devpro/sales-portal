@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>Devpro.Common.MongoDb</AssemblyName>
     <RootNamespace>Devpro.Common.MongoDb</RootNamespace>
-    <ProjectGuid>{1ECBBB73-7867-4B45-9BEC-E5E3AF5F5D4F}</ProjectGuid>
+    <ProjectGuid>{86191BC4-273A-4C9E-A67B-63A6B1112D44}</ProjectGuid>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 

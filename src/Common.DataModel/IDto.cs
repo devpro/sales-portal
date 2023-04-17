@@ -1,4 +1,4 @@
-﻿namespace Devpro.SalesPortal.SalesDomain.Dtos
+﻿namespace Devpro.Common.AspNetCore.Mvc
 {
     public interface IDto
     {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Devpro.Common.AspNetCore.Builder
+namespace Devpro.Common.AspNetCore.WebApi.Builder
 {
     public static class DeveloperBuilderExtensions
     {

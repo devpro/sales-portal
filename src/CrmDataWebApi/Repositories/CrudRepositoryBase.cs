@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
-using Devpro.Common.MongoDb;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Devpro.SalesPortal.CrmDataWebApi.Repositories
 {
-    public abstract class CrudRepositoryBase<T, U> : MongoDbRepositoryBase, ICrudRepository<T, U>
+    public abstract class CrudRepositoryBase<T, U> : MongoDbRepositoryBase, ICrudRepository<T>
         where U : IMongoDbEntity
     {
         protected IMapper Mapper { get; }
@@ -16,12 +15,12 @@ namespace Devpro.SalesPortal.CrmDataWebApi.Repositories
             Mapper = mapper;
         }
 
-        public async Task<T> FindOneAsync(string id)
+        public async Task<T?> FindOneAsync(string id)
         {
             var objectId = ParseObjectId(id);
             var collection = GetCollection<U>();
             var dbEntries = await collection.FindAsync(x => x.Id == objectId);
-            return Mapper.Map<T>(dbEntries.FirstOrDefault());
+            return Mapper.Map<T?>(dbEntries.FirstOrDefault());
         }
 
         public async Task<List<T>> FindAllAsync()
@@ -39,21 +38,19 @@ namespace Devpro.SalesPortal.CrmDataWebApi.Repositories
             return Mapper.Map<T>(entity);
         }
 
-        public async Task<long> UpdateAsync(string id, T input)
+        public async Task UpdateAsync(string id, T input)
         {
             var objectId = ParseObjectId(id);
             var collection = GetCollection<U>();
             var entity = Mapper.Map<U>(input);
-            var result = await collection.ReplaceOneAsync(x => x.Id == objectId, entity);
-            return result.ModifiedCount;
+            await collection.ReplaceOneAsync(x => x.Id == objectId, entity);
         }
 
-        public async Task<long> DeleteAsync(string id)
+        public async Task DeleteAsync(string id)
         {
             var objectId = ParseObjectId(id);
             var collection = GetCollection<U>();
-            var result = await collection.DeleteOneAsync(x => x.Id == objectId);
-            return result.DeletedCount;
+            await collection.DeleteOneAsync(x => x.Id == objectId);
         }
 
         protected static ObjectId ParseObjectId(string id, string message = "")

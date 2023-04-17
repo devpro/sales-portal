@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -10,7 +10,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Common.AspNetCore.OpenApi\Common.AspNetCore.WebApi.csproj" />
     <ProjectReference Include="..\Common.AspNetCore\Common.AspNetCore.csproj" />
+    <ProjectReference Include="..\Common.DataModel\Common.DataModel.csproj" />
     <ProjectReference Include="..\SalesDomain\SalesDomain.csproj" />
   </ItemGroup>
 
