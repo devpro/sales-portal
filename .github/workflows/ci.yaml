@@ -4,7 +4,11 @@
 #   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
 # variables:
 #   - DOCKERHUB_NAMESPACE
-# secrets: []
+#   - SONAR_HOST_URL
+#   - SONAR_ORG
+#   - SONAR_PROJECT_KEY
+# secrets:
+#   - SONAR_TOKEN
 
 name: CI
 
@@ -19,6 +23,10 @@ concurrency:
   group: "ci"
   cancel-in-progress: true
 
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,6 +37,15 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 7.0.x
+      - name: Install .NET linters
+        run: dotnet tool install -g dotnet-format --version "7.*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet6/nuget/v3/index.json
+      - name: Lint .NET code
+        run: dotnet-format --verify-no-changes --severity warn --verbosity:diagnostic
+      - name: Install SonarQube
+        run: |
+          sudo apt-get install --yes openjdk-11-jre
+          dotnet tool install --global dotnet-sonarscanner
+          export PATH="$PATH:/root/.dotnet/tools"
       # follows documentation (https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/)
       - name: Install & start MongoDB
         run: |
@@ -42,10 +59,14 @@ jobs:
           sudo systemctl start mongod
       - name: Restore .NET packages
         run: dotnet restore
+      - name: Start code analysis
+        run: dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /o:"$SONAR_ORG" /d:sonar.login="$SONAR_TOKEN" /d:"sonar.host.url=$SONAR_HOST_URL"
       - name: Build .NET solution
         run: dotnet build --no-restore
       - name: Run tests
         run: dotnet test --no-build --verbosity normal
+      - name: Stop code analysis
+        run: dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
       - name: Stop MongoDB
         run: sudo systemctl stop mongod
       - name: Build container images
@@ -54,5 +75,10 @@ jobs:
             docker build . --file src/CrmAdapterWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}
             docker build . --file src/CrmDataWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}
     env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
       IMAGE_TAG: 1.0.${GITHUB_RUN_ID}
+      SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+      SONAR_ORG: ${{ vars.SONAR_ORG }}
+      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
