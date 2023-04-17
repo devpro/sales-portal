@@ -1,0 +1,58 @@
+# purpose: run Continuous Integration (build, unit test, lint, scan)
+# actions: []
+# images:
+#   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+# variables:
+#   - DOCKERHUB_NAMESPACE
+# secrets: []
+
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch: {}
+
+concurrency:
+  group: "ci"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+      - name: Install .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+      # follows documentation (https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/)
+      - name: Install & start MongoDB
+        run: |
+          curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
+            sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
+            --dearmor
+          echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | \
+            sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+          sudo apt-get update
+          sudo apt-get install -y mongodb-org
+          sudo systemctl start mongod
+      - name: Restore .NET packages
+        run: dotnet restore
+      - name: Build .NET solution
+        run: dotnet build --no-restore
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+      - name: Stop MongoDB
+        run: sudo systemctl stop mongod
+      - name: Build container images
+        run: |
+            docker build . --file src/BlazorWasmApp/Dockerfile --tag IMAGE_FOLDER/salesportal-wasmapp:$IMAGE_TAG
+            docker build . --file src/CrmAdapterWebApi/Dockerfile --tag IMAGE_FOLDER/salesportal-crmadapterwebapi:$IMAGE_TAG
+            docker build . --file src/CrmDataWebApi/Dockerfile --tag IMAGE_FOLDER/salesportal-crmdatawebapi:$IMAGE_TAG
+    env:
+      IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
+      IMAGE_TAG: "1.0.$GITHUB_RUN_ID"
