@@ -24,3 +24,6 @@ app.MapHealthChecks(configuration.HealthCheckEndpoint);
 
 // runs the application
 app.Run();
+
+// adds explicit class definition for integration test project
+public partial class Program { }
