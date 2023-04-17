@@ -1,0 +1,42 @@
+﻿@page "/customers"
+@inject HttpClient Http
+
+<PageTitle>Customers</PageTitle>
+
+<h1>Customers</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+@if (customers == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var customer in customers)
+            {
+                <tr>
+                    <td>@customer.Id</td>
+                    <td>@customer.Name</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private CustomerDto[]? customers;
+
+    protected override async Task OnInitializedAsync()
+    {
+        customers = await Http.GetFromJsonAsync<CustomerDto[]>("customers");
+    }
+}

@@ -1,0 +1,43 @@
+# Contributing
+
+## Build & run a local image
+
+Examples are made with Docker CLI.
+
+### Docker compose
+
+All the definitions are written in `compose.yaml` file at the root of the repository.
+
+Build images with `docker compose build`.
+
+Use `docker compose <up|start|stop|down>` to manage running container.
+
+Open [localhost:9001](http://localhost:9001/) in a browser.
+
+### Sales Portal WebAssembly image
+
+Create an image with `docker build . -t salesportalwasmapp -f src/BlazorWasmApp/Dockerfile`.
+
+Runs the image with `docker run -it --rm -p 9001:80 -e ASPNETCORE_ENVIRONMENT=Development salesportalwasmapp`.
+
+Open [localhost:9001](http://localhost:9001/) in a browser.
+
+### CRM Adapter Web API image
+
+Create an image with `docker build . -t crmadapterwebapi -f src/CrmAdapterWebApi/Dockerfile`.
+
+Runs the image with `docker run -it --rm -p 9002:80 -e ASPNETCORE_ENVIRONMENT=Development crmadapterwebapi`.
+
+Open [localhost:9002/swagger](http://localhost:9002/swagger) in a browser.
+
+### CRM Data Web API image
+
+Create an image with `docker build . -t crmdatawebapi -f src/CrmDataWebApi/Dockerfile`.
+
+Runs the image with `docker run -it --rm -p 9002:80 -e ASPNETCORE_ENVIRONMENT=Development crmdatawebapi`.
+
+Open [localhost:9003/swagger](http://localhost:9003/swagger) in a browser.
+
+## Debug
+
+Use Chrome to be able to debug the Blazor WebAssembly application (breakpoints are not hit in Firefox). In Visual Studio 2022, click on the Run menu (displaying http for example) and select Chrome as browser.

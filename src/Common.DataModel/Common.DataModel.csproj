@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <AssemblyName>Devpro.Common.DataModel</AssemblyName>
+    <RootNamespace>Devpro.Common.DataModel</RootNamespace>
+    <ProjectGuid>{D4A86D6A-528B-4E22-BD0E-2A68FC937001}</ProjectGuid>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>

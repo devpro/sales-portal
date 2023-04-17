@@ -1,0 +1,43 @@
+services:
+  frontend:
+    image: salesportalwasmapp
+    build:
+      context: .
+      dockerfile: ./src/BlazorWasmApp/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "9001:80"
+    depends_on:
+      - backend
+  backend:
+    image: crmadapterwebapi
+    build:
+      context: .
+      dockerfile: ./src/CrmAdapterWebApi/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - AllowedOrigins__0=http://localhost:9001
+    ports:
+      - "9002:80"
+    depends_on:
+      - crmdatawebapi
+  crmdataapi:
+    image: crmdatawebapi
+    build:
+      context: .
+      dockerfile: ./src/CrmDataWebApi/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - AllowedOrigins__0=http://localhost:9002
+      - ConnectionStrings__MongoDbLocal=mongodb://database:27017/?readPreference=primary&appname=SalesPortalCrmDataWebApi&directConnection=true&ssl=false
+      - MongoDb__ConnectionStringName=MongoDbLocal
+      - MongoDb__DatabaseName=crm_data_dev
+    ports:
+      - "9003:80"
+    depends_on:
+      - database
+  database:
+    image: mongo:6.0
+    ports:
+      - "27017:27017"
