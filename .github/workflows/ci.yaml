@@ -44,7 +44,7 @@ jobs:
         run: dotnet restore
       - name: Build .NET solution
         run: dotnet build --no-restore
-      - name: Test
+      - name: Run tests
         run: dotnet test --no-build --verbosity normal
       - name: Stop MongoDB
         run: sudo systemctl stop mongod
@@ -55,4 +55,4 @@ jobs:
             docker build . --file src/CrmDataWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmdatawebapi:$IMAGE_TAG
     env:
       IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
-      IMAGE_TAG: 1.0.$GITHUB_RUN_ID
+      IMAGE_TAG: 1.0.${GITHUB_RUN_ID}

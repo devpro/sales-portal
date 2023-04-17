@@ -52,4 +52,4 @@ jobs:
     env:
       CONTAINER_REGITRY_DOMAIN: docker.io
       IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
-      IMAGE_TAG: 1.0.$GITHUB_RUN_ID
+      IMAGE_TAG: 1.0.${GITHUB_RUN_ID}
