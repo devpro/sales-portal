@@ -39,6 +39,8 @@ jobs:
           dotnet-version: 7.0.x
       - name: Install .NET linters
         run: dotnet tool install -g dotnet-format --version "7.*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet7/nuget/v3/index.json
+      - name: Restore .NET packages
+        run: dotnet restore
       - name: Lint .NET code
         run: dotnet-format --verify-no-changes --severity warn --verbosity:diagnostic
       - name: Install SonarQube
@@ -57,8 +59,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y mongodb-org
           sudo systemctl start mongod
-      - name: Restore .NET packages
-        run: dotnet restore
       - name: Start code analysis
         run: dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /o:"$SONAR_ORG" /d:sonar.login="$SONAR_TOKEN" /d:"sonar.host.url=$SONAR_HOST_URL"
       - name: Build .NET solution

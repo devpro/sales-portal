@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common.AspNetCore.OpenApi\Common.AspNetCore.WebApi.csproj" />
+    <ProjectReference Include="..\Common.AspNetCore.WebApi\Common.AspNetCore.WebApi.csproj" />
     <ProjectReference Include="..\Common.AspNetCore\Common.AspNetCore.csproj" />
     <ProjectReference Include="..\Common.DataModel\Common.DataModel.csproj" />
     <ProjectReference Include="..\SalesDomain\SalesDomain.csproj" />

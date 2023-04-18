@@ -10,11 +10,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.dockerignore = .dockerignore
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
-		.github\workflows\ci.yaml = .github\workflows\ci.yaml
 		compose.yaml = compose.yaml
 		CONTRIBUTING.md = CONTRIBUTING.md
 		.docker\nginx.conf = .docker\nginx.conf
-		.github\workflows\pkg.yaml = .github\workflows\pkg.yaml
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -36,11 +34,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrmDataWebApi", "src\CrmDat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.MongoDb", "src\Common.MongoDb\Common.MongoDb.csproj", "{86191BC4-273A-4C9E-A67B-63A6B1112D44}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.AspNetCore.WebApi", "src\Common.AspNetCore.OpenApi\Common.AspNetCore.WebApi.csproj", "{A635B2F2-A445-4051-9F02-472D7C91BAAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.AspNetCore.WebApi", "src\Common.AspNetCore.WebApi\Common.AspNetCore.WebApi.csproj", "{A635B2F2-A445-4051-9F02-472D7C91BAAC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DataModel", "src\Common.DataModel\Common.DataModel.csproj", "{D4A86D6A-528B-4E22-BD0E-2A68FC937001}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrmDataWebApi.IntegrationTests", "test\CrmDataWebApi.IntegrationTests\CrmDataWebApi.IntegrationTests.csproj", "{EE3BA215-0064-4F9F-A1F7-4D01EEE67C4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrmDataWebApi.IntegrationTests", "test\CrmDataWebApi.IntegrationTests\CrmDataWebApi.IntegrationTests.csproj", "{D50A028D-C018-4E64-823E-508199AD939A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,10 +78,10 @@ Global
 		{D4A86D6A-528B-4E22-BD0E-2A68FC937001}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4A86D6A-528B-4E22-BD0E-2A68FC937001}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4A86D6A-528B-4E22-BD0E-2A68FC937001}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE3BA215-0064-4F9F-A1F7-4D01EEE67C4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE3BA215-0064-4F9F-A1F7-4D01EEE67C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE3BA215-0064-4F9F-A1F7-4D01EEE67C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE3BA215-0064-4F9F-A1F7-4D01EEE67C4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D50A028D-C018-4E64-823E-508199AD939A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D50A028D-C018-4E64-823E-508199AD939A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D50A028D-C018-4E64-823E-508199AD939A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D50A028D-C018-4E64-823E-508199AD939A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,7 +95,7 @@ Global
 		{86191BC4-273A-4C9E-A67B-63A6B1112D44} = {4226EB06-2B7A-4CA1-B153-FA0EF0DEDAAC}
 		{A635B2F2-A445-4051-9F02-472D7C91BAAC} = {4226EB06-2B7A-4CA1-B153-FA0EF0DEDAAC}
 		{D4A86D6A-528B-4E22-BD0E-2A68FC937001} = {4226EB06-2B7A-4CA1-B153-FA0EF0DEDAAC}
-		{EE3BA215-0064-4F9F-A1F7-4D01EEE67C4D} = {5347A9D3-C90D-4B79-9D90-8E71777CA568}
+		{D50A028D-C018-4E64-823E-508199AD939A} = {5347A9D3-C90D-4B79-9D90-8E71777CA568}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88F15213-6526-4156-876C-B5363E6A28FE}

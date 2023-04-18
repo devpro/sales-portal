@@ -24,9 +24,9 @@ namespace Devpro.Common.AspNetCore.WebApi.Configuration
 
         // definitions
 
-        public string CorsPolicyName => "RestrictedOrigins";
+        public static string CorsPolicyName => "RestrictedOrigins";
 
-        public string HealthCheckEndpoint => "/health";
+        public static string HealthCheckEndpoint => "/health";
 
         public OpenApiInfo OpenApi => TryGetSection("OpenApi").Get<OpenApiInfo>() ?? throw new Exception("");
 
