@@ -3,7 +3,7 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = new ApplicationConfiguration(builder.Configuration);
 
 // add services to the container
-builder.Services.AddCors(configuration.CorsPolicyName, configuration.CorsAllowedOrigin);
+builder.Services.AddCors(WebApiConfiguration.CorsPolicyName, configuration.CorsAllowedOrigin);
 builder.Services.AddMapping();
 builder.Services.AddInfrastructure(configuration.MongoDbConfiguration);
 builder.Services.AddControllers();
@@ -18,9 +18,9 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
 app.UseAuthorization();
-app.UseCors(configuration.CorsPolicyName);
-app.MapControllers().RequireCors(configuration.CorsPolicyName);
-app.MapHealthChecks(configuration.HealthCheckEndpoint);
+app.UseCors(WebApiConfiguration.CorsPolicyName);
+app.MapControllers().RequireCors(WebApiConfiguration.CorsPolicyName);
+app.MapHealthChecks(WebApiConfiguration.HealthCheckEndpoint);
 
 // runs the application
 app.Run();
