@@ -27,7 +27,6 @@ jobs:
         uses: actions/checkout@v3
       - name: Debug
         run: |
-          echo ${{ env.GITHUB_REF_NAME }}
           echo $GITHUB_REF_NAME
           echo ${{ github.ref_name }}
       - name: Login to container registry
@@ -47,7 +46,7 @@ jobs:
           docker push $IMAGE_FOLDER/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}
           docker push $IMAGE_FOLDER/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}
       - name: Push latest tag to container registry
-        if: ${{ env.GITHUB_REF_NAME == 'main' }}
+        if: ${{ github.ref_name == 'main' }}
         run: |
           docker tag $IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }} $IMAGE_FOLDER/salesportal-wasmapp:latest
           docker push $IMAGE_FOLDER/salesportal-wasmapp:latest
