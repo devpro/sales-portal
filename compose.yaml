@@ -18,6 +18,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - AllowedOrigins__0=http://localhost:9001
+      - CrmDataWebApi__Url=http://localhost:9003
     ports:
       - "9002:80"
     depends_on:
