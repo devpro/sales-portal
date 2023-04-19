@@ -3,20 +3,20 @@ var builder = WebApplication.CreateBuilder(args);
 var configuration = new ApplicationConfiguration(builder.Configuration);
 
 // add services to the container
+builder.Services.AddInfrastructure(configuration.MongoDbConfiguration);
 builder.Services.AddCors(WebApiConfiguration.CorsPolicyName, configuration.CorsAllowedOrigin);
 builder.Services.AddMapping();
-builder.Services.AddInfrastructure(configuration.MongoDbConfiguration);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwagger(configuration);
 builder.Services.AddHealthChecks();
+builder.Services.AddOpenTelemetry(configuration, builder.Logging);
 
 // create the application and configures the HTTP request pipeline
 var app = builder.Build();
 app.UseDeveloperExceptionPage(app.Environment);
-app.UseSwagger();
-app.UseSwaggerUI();
-app.UseHttpsRedirection();
+app.UseSwagger(configuration);
+app.UseHttps(configuration);
 app.UseAuthorization();
 app.UseCors(WebApiConfiguration.CorsPolicyName);
 app.MapControllers().RequireCors(WebApiConfiguration.CorsPolicyName);

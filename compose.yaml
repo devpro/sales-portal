@@ -1,5 +1,5 @@
 services:
-  frontend:
+  front:
     image: salesportalwasmapp
     build:
       context: .
@@ -9,21 +9,29 @@ services:
     ports:
       - "9001:80"
     depends_on:
-      - backend
-  backend:
+      - adapter
+  adapter:
     image: crmadapterwebapi
     build:
       context: .
       dockerfile: ./src/CrmAdapterWebApi/Dockerfile
+    privileged: true
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - Logging__LogLevel__Default=Debug
+      - Logging__LogLevel__Microsoft__AspNetCore=Debug
+      - Logging__LogLevel__Devpro=Debug
       - AllowedOrigins__0=http://localhost:9001
-      - CrmDataWebApi__Url=http://localhost:9003
+      - Application__IsHttpsRedirectionEnabled=false
+      - Application__IsOpenTelemetryEnabled=true
+      - Application__IsSwaggerEnabled=true
+      - CrmDataWebApi__Url=http://data:80
+      - OpenTelemetry__CollectorEndpoint=http://otelcollector:4317
     ports:
       - "9002:80"
     depends_on:
-      - crmdatawebapi
-  crmdataapi:
+      - data
+  data:
     image: crmdatawebapi
     build:
       context: .
@@ -31,14 +39,33 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - AllowedOrigins__0=http://localhost:9002
-      - ConnectionStrings__MongoDbLocal=mongodb://database:27017/?readPreference=primary&appname=SalesPortalCrmDataWebApi&directConnection=true&ssl=false
+      - AllowedOrigins__1=http://adapter:9002
+      - Application__IsHttpsRedirectionEnabled=false
+      - Application__IsOpenTelemetryEnabled=true
+      - Application__IsSwaggerEnabled=true
+      - ConnectionStrings__MongoDbLocal=mongodb://mongodb:27017/?readPreference=primary&appname=SalesPortalCrmDataWebApi&directConnection=true&ssl=false
       - MongoDb__ConnectionStringName=MongoDbLocal
       - MongoDb__DatabaseName=crm_data_dev
+      - OpenTelemetry__CollectorEndpoint=http://otelcollector:4317
     ports:
       - "9003:80"
     depends_on:
-      - database
-  database:
+      - mongodb
+      - otelcollector
+  mongodb:
     image: mongo:6.0
     ports:
       - "27017:27017"
+  otelcollector:
+    image: otel/opentelemetry-collector
+    command: [--config=/etc/otel-collector-config.yaml]
+    volumes:
+      - ./.docker/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    ports:
+      - 1888:1888   # pprof extension
+      - 8888:8888   # Prometheus metrics exposed by the collector
+      - 8889:8889   # Prometheus exporter metrics
+      - 13133:13133 # health_check extension
+      - 4317:4317   # OTLP gRPC receiver
+      - 4318:4318   # OTLP http receiver
+      - 55679:55679 # zpages extension
