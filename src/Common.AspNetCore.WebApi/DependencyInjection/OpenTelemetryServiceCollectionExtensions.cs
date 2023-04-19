@@ -10,6 +10,9 @@ using OpenTelemetry.Trace;
 
 namespace Devpro.Common.AspNetCore.WebApi.DependencyInjection
 {
+    /// <summary>
+    /// See https://opentelemetry.io/docs/instrumentation/net/getting-started/, https://github.com/open-telemetry/opentelemetry-dotnet
+    /// </summary>
     public static class OpenTelemetryServiceCollectionExtensions
     {
         public static IServiceCollection AddOpenTelemetry(this IServiceCollection services, WebApiConfiguration configuration, ILoggingBuilder logging)
