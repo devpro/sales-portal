@@ -1,5 +1,8 @@
 # purpose: run Continuous Integration (build, unit test, lint, scan)
-# actions: []
+# actions:
+#   - https://github.com/marketplace/actions/checkout  
+#   - https://github.com/marketplace/actions/setup-net-core-sdk
+#   - https://github.com/marketplace/actions/neuvector-vulnerability-scan-action
 # images:
 #   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
 # variables:
@@ -69,6 +72,17 @@ jobs:
         run: dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
       - name: Stop MongoDB
         run: sudo systemctl stop mongod
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+      SONAR_ORG: ${{ vars.SONAR_ORG }}
+      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  image-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
       - name: Build container images
         run: |
             docker build . --file src/BlazorWasmApp/Dockerfile --tag $IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }}
@@ -96,10 +110,5 @@ jobs:
           min-high-cves-to-fail: "1"
           min-medium-cves-to-fail: "1"
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
       IMAGE_TAG: 1.0.${GITHUB_RUN_ID}
-      SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
-      SONAR_ORG: ${{ vars.SONAR_ORG }}
-      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
