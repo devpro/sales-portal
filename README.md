@@ -13,17 +13,7 @@ Open source solution for a Sales Portal. It has been created for educational pur
 
 ## Installation
 
-[Helm](https://helm.sh) must be installed to use the charts. Once correctly setup, add the repository:
-
-```bash
-helm repo add devpro https://devpro.github.io/helm-charts
-```
-
-If you had already added this repo earlier, run `helm repo update` to retrieve the latest versions of the packages. To install the chart:
-
-```bash
-helm upgrade --install sales-portal devpro/sales-portal --create-namespace --namespace sales-portal
-```
+To install it on a Kubernetes cluster, use the [official Helm chart](https://github.com/devpro/helm-charts/blob/main/charts/devpro-salesportal/README.md).
 
 ## Development
 
