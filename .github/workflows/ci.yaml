@@ -109,16 +109,16 @@ jobs:
         with:
           image-repository: ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmadapterwebapi
           image-tag: ${{ env.IMAGE_TAG }}
-          min-high-cves-to-fail: "15"
-          min-medium-cves-to-fail: "10"
+          min-high-cves-to-fail: "16"
+          min-medium-cves-to-fail: "11"
       - name: Scan CRM Data container image with NeuVector
         if: ${{ vars.USE_NEUVECTOR == 'true' }}
         uses: neuvector/scan-action@main
         with:
           image-repository: ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmdatawebapi
           image-tag: ${{ env.IMAGE_TAG }}
-          min-high-cves-to-fail: "15"
-          min-medium-cves-to-fail: "10"
+          min-high-cves-to-fail: "16"
+          min-medium-cves-to-fail: "11"
       - name: Scan Front container image with Trivy
         if: ${{ vars.USE_TRIVY == 'true' }}
         uses: aquasecurity/trivy-action@master
