@@ -3,7 +3,7 @@
 #   - https://github.com/marketplace/actions/checkout  
 #   - https://github.com/marketplace/actions/setup-net-core-sdk
 #   - https://github.com/marketplace/actions/aqua-security-trivy
-#   - https://github.com/marketplace/actions/neuvector-vulnerability-scan-action (TODO)
+#   - https://github.com/marketplace/actions/neuvector-vulnerability-scan-action
 # images:
 #   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
 # variables:
@@ -104,28 +104,45 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
-      # Commented as doesn't work
-      #- name: Scan Front container image
-      #  uses: neuvector/scan-action@main
-      #  with:
-      #    image-repository: $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-wasmapp
-      #    image-tag: ${{ env.IMAGE_TAG }}
-      #    min-high-cves-to-fail: "1"
-      #    min-medium-cves-to-fail: "1"
-      #- name: Scan CRM Adapter container image
-      #  uses: neuvector/scan-action@main
-      #  with:
-      #    image-repository: $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-crmadapterwebapi
-      #    image-tag: ${{ env.IMAGE_TAG }}
-      #    min-high-cves-to-fail: "1"
-      #    min-medium-cves-to-fail: "1"
-      #- name: Scan CRM Data container image
-      #  uses: neuvector/scan-action@main
-      #  with:
-      #    image-repository: $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-crmdatawebapi
-      #    image-tag: ${{ env.IMAGE_TAG }}
-      #    min-high-cves-to-fail: "1"
-      #    min-medium-cves-to-fail: "1"
+      - name: Scan CRM Adapter container image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+      - name: Scan CRM Data container image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: '${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}'
+          format: 'table'
+          exit-code: '1'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH'
+      - name: Scan Front container image
+        uses: neuvector/scan-action@main
+        with:
+          image-repository: ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-wasmapp
+          image-tag: ${{ env.IMAGE_TAG }}
+          min-high-cves-to-fail: "1"
+          min-medium-cves-to-fail: "1"
+      - name: Scan CRM Adapter container image
+        uses: neuvector/scan-action@main
+        with:
+          image-repository: ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmadapterwebapi
+          image-tag: ${{ env.IMAGE_TAG }}
+          min-high-cves-to-fail: "1"
+          min-medium-cves-to-fail: "1"
+      - name: Scan CRM Data container image
+        uses: neuvector/scan-action@main
+        with:
+          image-repository: ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmdatawebapi
+          image-tag: ${{ env.IMAGE_TAG }}
+          min-high-cves-to-fail: "1"
+          min-medium-cves-to-fail: "1"
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CONTAINER_REGITRY_DOMAIN: docker.io
