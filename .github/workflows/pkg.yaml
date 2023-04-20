@@ -1,5 +1,6 @@
 # purpose: run Continuous Delivery / Packaging (package)
 # actions:
+#   - https://github.com/marketplace/actions/checkout
 #   - https://github.com/marketplace/actions/docker-login
 #   - https://github.com/marketplace/actions/docker-metadata-action (TODO)
 #   - https://github.com/marketplace/actions/build-and-push-docker-images (TODO)
