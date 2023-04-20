@@ -84,6 +84,13 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
+      - name: Debug
+        run: |
+          echo $IMAGE_TAG
+          echo ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-wasmapp:${{ env.IMAGE_TAG }}
+          echo ${{ env.GITHUB_RUN_ID }}
+          echo ${{ GITHUB_RUN_ID }}
+          echo $GITHUB_RUN_ID
       - name: Build container images
         run: |
           docker build . --file src/BlazorWasmApp/Dockerfile --tag $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }}
@@ -92,7 +99,7 @@ jobs:
       - name: Scan Front container image
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: '$CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }}'
+          image-ref: '${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-wasmapp:${{ env.IMAGE_TAG }}'
           format: 'table'
           exit-code: '1'
           ignore-unfixed: true
@@ -124,4 +131,4 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CONTAINER_REGITRY_DOMAIN: docker.io
       IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
-      IMAGE_TAG: 1.0.${GITHUB_RUN_ID}
+      IMAGE_TAG: 1.0.${{ env.GITHUB_RUN_ID }}
