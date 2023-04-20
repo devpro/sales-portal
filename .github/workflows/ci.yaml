@@ -85,30 +85,31 @@ jobs:
         uses: actions/checkout@v3
       - name: Build container images
         run: |
-            docker build . --file src/BlazorWasmApp/Dockerfile --tag $IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }}
-            docker build . --file src/CrmAdapterWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}
-            docker build . --file src/CrmDataWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}
+            docker build . --file src/BlazorWasmApp/Dockerfile --tag $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }}
+            docker build . --file src/CrmAdapterWebApi/Dockerfile --tag $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}
+            docker build . --file src/CrmDataWebApi/Dockerfile --tag $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}
       - name: Scan Front container image
         uses: neuvector/scan-action@main
         with:
-          image-repository: $IMAGE_FOLDER/salesportal-wasmapp
+          image-repository: $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-wasmapp
           image-tag: ${{ env.IMAGE_TAG }}
           min-high-cves-to-fail: "1"
           min-medium-cves-to-fail: "1"
       - name: Scan CRM Adapter container image
         uses: neuvector/scan-action@main
         with:
-          image-repository: $IMAGE_FOLDER/salesportal-crmadapterwebapi
+          image-repository: $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-crmadapterwebapi
           image-tag: ${{ env.IMAGE_TAG }}
           min-high-cves-to-fail: "1"
           min-medium-cves-to-fail: "1"
       - name: Scan CRM Data container image
         uses: neuvector/scan-action@main
         with:
-          image-repository: $IMAGE_FOLDER/salesportal-crmdatawebapi
+          image-repository: $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-crmdatawebapi
           image-tag: ${{ env.IMAGE_TAG }}
           min-high-cves-to-fail: "1"
           min-medium-cves-to-fail: "1"
     env:
+      CONTAINER_REGITRY_DOMAIN: docker.io
       IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
       IMAGE_TAG: 1.0.${GITHUB_RUN_ID}
