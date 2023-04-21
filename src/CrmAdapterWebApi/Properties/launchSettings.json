@@ -22,9 +22,10 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "Application__IsSwaggerEnabled": "true",
+        "Application__IsCertificateValidationSkipped": "true",
         "AllowedOrigins__0": "http://localhost:5268",
         "AllowedOrigins__1": "https://localhost:7212",
-        "CrmDataWebApi__Url": "http://localhost:7179"
+        "CrmDataWebApi__Url": "https://localhost:7179"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7021;http://localhost:5261"

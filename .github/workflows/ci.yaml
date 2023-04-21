@@ -11,6 +11,9 @@
 #   - SONAR_HOST_URL
 #   - SONAR_ORG
 #   - SONAR_PROJECT_KEY
+#   - USE_NEUVECTOR
+#   - USE_NEUVECTOR
+#   - USE_TRIVY
 # secrets:
 #   - SONAR_TOKEN
 

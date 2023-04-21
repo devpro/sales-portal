@@ -1,5 +1,11 @@
 # Contributing
 
+## Local development
+
+.NET SDK is needed.
+
+Make sure to have local certificates for https debugging: `dotnet dev-certs https`.
+
 ## Build & run a local image
 
 Examples are made with Docker CLI.
