@@ -23,7 +23,7 @@ namespace Devpro.SalesPortal.CrmAdapterWebApi.DependencyInjection
                     };
                 }
 
-                return new HttpClient()
+                return new HttpClient
                 {
                     BaseAddress = new Uri(configuration.CrmDataWebApiUrl)
                 };
