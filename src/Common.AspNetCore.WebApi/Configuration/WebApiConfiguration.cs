@@ -22,6 +22,8 @@ namespace Devpro.Common.AspNetCore.WebApi.Configuration
 
         public bool IsSwaggerEnabled => TryGetSection("Application:IsSwaggerEnabled").Get<bool>();
 
+        public bool IsCertificateValidationSkipped => TryGetSection("Application:IsCertificateValidationSkipped").Get<bool>();
+
         // definitions
 
         public static string CorsPolicyName => "RestrictedOrigins";
