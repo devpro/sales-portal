@@ -3,40 +3,125 @@
 
 <PageTitle>Customers</PageTitle>
 
-<h1>Customers</h1>
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+        <div class="row">
+            <div class="col"><h3>Customers</h3></div>
+            <div class="col">
+                <button type="button" class="btn btn-info float-right" @onclick="ShowCreate">Create</button>
+            </div>
+        </div>
 
-<p>This component demonstrates fetching data from the server.</p>
-
-@if (customers == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var customer in customers)
+        <div class="row">
+            @if (customers == null)
             {
-                <tr>
-                    <td>@customer.Id</td>
-                    <td>@customer.Name</td>
-                </tr>
+                <p>Loading...</p>
             }
-        </tbody>
-    </table>
-}
+            else
+            {
+                @foreach (var customer in customers)
+                {
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mh-25 mb-4">
+                        <div class="card @(selected?.Id == customer.Id ? "bg-light" : "")">
+                            <div class="card-body">
+                                <h5 class="card-title">@customer.Name</h5>
+                                @*<p class="card-text">@customer.Description.Substring(0, 80) ...</p>*@
+                                <a href="/customers" @onclick="() => GetDetails(customer.Id)">More...</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+        @if (selected is not null)
+        {
+            <EditForm class="container" Model="selected" OnValidSubmit="HandleValidSubmit">
+
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="form-group">
+                    <label for="title">Name</label>
+                    <InputText id="title" @bind-Value="selected.Name" placeholder="Customer name..." class="form-control" />
+                </div>
+
+                @*<div class="form-group">
+                    <label for="description">Description</label>
+                    <InputTextArea id="description" @bind-Value="selected.Description" placeholder="Description..." class="form-control" rows="7" />
+                </div>*@
+
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" @onclick="Delete" class="btn btn-danger float-right">Delete</button>
+                    </div>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <p>No item selected</p>
+        }
+    </div>
+</div>
 
 @code {
     private CustomerDto[]? customers;
+    private CustomerDto? selected;
 
     protected override async Task OnInitializedAsync()
     {
+        await Load();
+    }
+
+    async Task Load()
+    {
+        selected = null;
         customers = await Http.GetFromJsonAsync<CustomerDto[]>("customers");
+    }
+
+    async Task GetDetails(string id)
+    {
+        selected = await Http.GetFromJsonAsync<CustomerDto>($"customers/{id}");
+    }
+
+    async Task HandleValidSubmit()
+    {
+        if (selected == null)
+        {
+            throw new Exception("No selected item");
+        }
+
+        var response = string.IsNullOrEmpty(selected.Id)
+            ? await Http.PostAsJsonAsync<CustomerDto>("customers", selected)
+            : await Http.PutAsJsonAsync<CustomerDto>($"customers/{selected.Id}", selected);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await Load();
+        }
+    }
+
+    async Task Delete()
+    {
+        if (selected == null)
+        {
+            throw new Exception("No selected item");
+        }
+
+        await Http.DeleteAsync($"customers/{selected.Id}");
+
+        selected = null;
+        await Load();
+    }
+
+    void ShowCreate()
+    {
+        selected = new();
     }
 }
