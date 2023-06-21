@@ -67,7 +67,7 @@ jobs:
           sudo apt-get install -y mongodb-org
           sudo systemctl start mongod
       - name: Start code analysis
-        run: dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /o:"$SONAR_ORG" /d:sonar.login="$SONAR_TOKEN" /d:"sonar.host.url=$SONAR_HOST_URL"
+        run: dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /o:"$SONAR_ORG" /d:sonar.projectName="Sales Portal" /d:sonar.login="$SONAR_TOKEN" /d:"sonar.host.url=$SONAR_HOST_URL"
       - name: Build .NET solution
         run: dotnet build --no-restore
       - name: Run tests
