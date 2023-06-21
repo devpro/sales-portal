@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Devpro.SalesPortal.CrmDataWebApi.IntegrationTests.Resources
 {
-    public class OpportunityResourceTest : IntegrationTestBase, IClassFixture<WebApplicationFactory<Program>>
+    [Trait("Category", "IntegrationTests")]
+    public class OpportunityResourceTest : IntegrationTestBase
     {
         public OpportunityResourceTest(WebApplicationFactory<Program> factory)
             : base(factory)

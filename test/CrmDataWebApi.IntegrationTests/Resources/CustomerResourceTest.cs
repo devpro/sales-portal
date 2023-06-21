@@ -3,10 +3,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Devpro.SalesPortal.CrmDataWebApi.IntegrationTests.Resources
 {
-    /// <summary>
-    /// See https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests
-    /// </summary>
-    public class CustomerResourceTest : IntegrationTestBase, IClassFixture<WebApplicationFactory<Program>>
+    [Trait("Category", "IntegrationTests")]
+    public class CustomerResourceTest : IntegrationTestBase
     {
         public CustomerResourceTest(WebApplicationFactory<Program> factory)
             : base(factory)
