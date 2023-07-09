@@ -49,3 +49,7 @@ Open [localhost:9003/swagger](http://localhost:9003/swagger) in a browser.
 ## Debug
 
 Use Chrome to be able to debug the Blazor WebAssembly application (breakpoints are not hit in Firefox). In Visual Studio 2022, click on the Run menu (displaying http for example) and select Chrome as browser.
+
+## Next
+
+Integrate with [SuiteCRM](https://github.com/salesagility/SuiteCRM) ([Bitnami's Helm chart](https://github.com/bitnami/charts/tree/main/bitnami/suitecrm/#installing-the-chart)).
