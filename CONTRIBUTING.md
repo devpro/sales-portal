@@ -52,4 +52,6 @@ Use Chrome to be able to debug the Blazor WebAssembly application (breakpoints a
 
 ## Next
 
-Integrate with [SuiteCRM](https://github.com/salesagility/SuiteCRM) ([Bitnami's Helm chart](https://github.com/bitnami/charts/tree/main/bitnami/suitecrm/#installing-the-chart)).
+* Integrate with [SuiteCRM](https://github.com/salesagility/SuiteCRM) ([Bitnami's Helm chart](https://github.com/bitnami/charts/tree/main/bitnami/suitecrm/#installing-the-chart)).
+* Improve observability stack
+  * See [Depechie/OpenTelemetryGrafana](https://github.com/Depechie/OpenTelemetryGrafana)
