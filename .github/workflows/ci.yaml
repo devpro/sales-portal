@@ -12,9 +12,10 @@
 #   - SONAR_ORG
 #   - SONAR_PROJECT_KEY
 #   - USE_NEUVECTOR
-#   - USE_NEUVECTOR
 #   - USE_TRIVY
 # secrets:
+#   - DOCKERHUB_TOKEN
+#   - DOCKERHUB_USERNAME
 #   - SONAR_TOKEN
 
 name: CI
@@ -50,14 +51,14 @@ jobs:
         run: dotnet restore
       - name: Lint .NET code
         run: dotnet-format --verify-no-changes --severity warn --verbosity:diagnostic
-      - name: Install SonarQube
+      - name: Install local tools (JRE 11, Sonar Scanner for .NET)
         run: |
           sudo apt-get install --yes openjdk-11-jre
           dotnet tool install --global dotnet-sonarscanner
           export PATH="$PATH:/root/.dotnet/tools"
-      # follows documentation (https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/)
       - name: Install & start MongoDB
         run: |
+          # follows documentation (https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/)
           curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \
             sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \
             --dearmor
@@ -87,18 +88,10 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
-      - name: Debug
-        run: |
-          echo $IMAGE_TAG
-          echo ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-wasmapp:${{ env.IMAGE_TAG }}
-          echo ${{ github.run_id }}
-          echo $GITHUB_RUN_ID
-      - name: Build container images
+      - name: Build front container image
         run: |
           docker build . --file src/BlazorWasmApp/Dockerfile --tag $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }}
-          docker build . --file src/CrmAdapterWebApi/Dockerfile --tag $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}
-          docker build . --file src/CrmDataWebApi/Dockerfile --tag $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}
-      - name: Scan Front container image with NeuVector
+      - name: Scan front container image with NeuVector
         if: ${{ vars.USE_NEUVECTOR == 'true' }}
         uses: neuvector/scan-action@main
         with:
@@ -106,23 +99,7 @@ jobs:
           image-tag: ${{ env.IMAGE_TAG }}
           min-high-cves-to-fail: "1"
           min-medium-cves-to-fail: "1"
-      - name: Scan CRM Adapter container image with NeuVector
-        if: ${{ vars.USE_NEUVECTOR == 'true' }}
-        uses: neuvector/scan-action@main
-        with:
-          image-repository: ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmadapterwebapi
-          image-tag: ${{ env.IMAGE_TAG }}
-          min-high-cves-to-fail: "16"
-          min-medium-cves-to-fail: "11"
-      - name: Scan CRM Data container image with NeuVector
-        if: ${{ vars.USE_NEUVECTOR == 'true' }}
-        uses: neuvector/scan-action@main
-        with:
-          image-repository: ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmdatawebapi
-          image-tag: ${{ env.IMAGE_TAG }}
-          min-high-cves-to-fail: "16"
-          min-medium-cves-to-fail: "11"
-      - name: Scan Front container image with Trivy
+      - name: Scan front container image with Trivy
         if: ${{ vars.USE_TRIVY == 'true' }}
         uses: aquasecurity/trivy-action@master
         with:
@@ -132,7 +109,18 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
-      - name: Scan CRM Adapter container image with Trivy
+      - name: Build CRM adapter container image
+        run: |
+          docker build . --file src/CrmAdapterWebApi/Dockerfile --tag $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}
+      - name: Scan CRM adapter container image with NeuVector
+        if: ${{ vars.USE_NEUVECTOR == 'true' }}
+        uses: neuvector/scan-action@main
+        with:
+          image-repository: ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmadapterwebapi
+          image-tag: ${{ env.IMAGE_TAG }}
+          min-high-cves-to-fail: "16"
+          min-medium-cves-to-fail: "11"
+      - name: Scan CRM adapter container image with Trivy
         if: ${{ vars.USE_TRIVY == 'true' }}
         uses: aquasecurity/trivy-action@master
         with:
@@ -142,6 +130,17 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
+      - name: Build CRM data container image
+        run: |
+          docker build . --file src/CrmDataWebApi/Dockerfile --tag $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}
+      - name: Scan CRM data container image with NeuVector
+        if: ${{ vars.USE_NEUVECTOR == 'true' }}
+        uses: neuvector/scan-action@main
+        with:
+          image-repository: ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmdatawebapi
+          image-tag: ${{ env.IMAGE_TAG }}
+          min-high-cves-to-fail: "16"
+          min-medium-cves-to-fail: "11"
       - name: Scan CRM Data container image with Trivy
         if: ${{ vars.USE_TRIVY == 'true' }}
         uses: aquasecurity/trivy-action@master
