@@ -5,7 +5,7 @@
 #   - https://github.com/marketplace/actions/docker-metadata-action (TODO)
 #   - https://github.com/marketplace/actions/build-and-push-docker-images (TODO)
 # images:
-#   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+#   - https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
 # variables:
 #   - DOCKERHUB_NAMESPACE
 # secrets:

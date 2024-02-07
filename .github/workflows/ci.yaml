@@ -2,10 +2,11 @@
 # actions:
 #   - https://github.com/marketplace/actions/checkout  
 #   - https://github.com/marketplace/actions/setup-net-core-sdk
+#   - https://github.com/actions/setup-java
 #   - https://github.com/marketplace/actions/aqua-security-trivy
 #   - https://github.com/marketplace/actions/neuvector-vulnerability-scan-action
 # images:
-#   - https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+#   - https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
 # variables:
 #   - DOCKERHUB_NAMESPACE
 #   - SONAR_HOST_URL
@@ -51,9 +52,13 @@ jobs:
         run: dotnet restore
       - name: Lint .NET code
         run: dotnet-format --verify-no-changes --severity warn --verbosity:diagnostic
-      - name: Install local tools (JRE 21, Sonar Scanner for .NET)
+      - name: Install Java 21 # required by Sonar scanner
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+      - name: Install .NET glocal tools (JRE 21, Sonar Scanner for .NET)
         run: |
-          sudo apt-get install --yes openjdk-21-jre
+          #sudo apt-get install --yes openjdk-21-jre
           dotnet tool install --global dotnet-sonarscanner
           export PATH="$PATH:/root/.dotnet/tools"
       - name: Install & start MongoDB 7.0
@@ -79,6 +84,7 @@ jobs:
         run: sudo systemctl stop mongod
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #JAVA_HOME: $JAVA_HOME_21_X64
       SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
