@@ -41,7 +41,7 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v4
-      - name: Install .NET
+      - name: Install .NET 8.0
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 8.0.x
@@ -51,9 +51,9 @@ jobs:
         run: dotnet restore
       - name: Lint .NET code
         run: dotnet-format --verify-no-changes --severity warn --verbosity:diagnostic
-      - name: Install local tools (JRE 11, Sonar Scanner for .NET)
+      - name: Install local tools (JRE 21, Sonar Scanner for .NET)
         run: |
-          sudo apt-get install --yes openjdk-11-jre
+          sudo apt-get install --yes openjdk-21-jre
           dotnet tool install --global dotnet-sonarscanner
           export PATH="$PATH:/root/.dotnet/tools"
       - name: Install & start MongoDB 7.0
