@@ -22,10 +22,7 @@ namespace Devpro.Common.AspNetCore.WebApi.DependencyInjection
                 return services;
             }
 
-            if (logging == null)
-            {
-                throw new ArgumentNullException(nameof(logging));
-            }
+            ArgumentNullException.ThrowIfNull(logging);
 
             services.AddOpenTelemetry()
                 .WithTracing(tracerProviderBuilder =>
@@ -59,7 +56,9 @@ namespace Devpro.Common.AspNetCore.WebApi.DependencyInjection
                 loggerOptions.IncludeFormattedMessage = true;
                 loggerOptions.IncludeScopes = true;
                 loggerOptions.ParseStateValues = true;
-                loggerOptions.AddOtlpExporter(options => options.Endpoint = new Uri(configuration.OpenTelemetryCollectorEndpoint));
+                loggerOptions.AddOtlpExporter(
+                    "logging",
+                    options => options.Endpoint = new Uri(configuration.OpenTelemetryCollectorEndpoint));
             });
 
             return services;

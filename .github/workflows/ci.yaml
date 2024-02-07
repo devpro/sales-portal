@@ -40,13 +40,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Install .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: 7.0.x
+          dotnet-version: 8.0.x
       - name: Install .NET linters
-        run: dotnet tool install -g dotnet-format --version "7.*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet7/nuget/v3/index.json
+        run: dotnet tool install -g dotnet-format --version "8.*" --add-source https://pkgs.dev.azure.com/dnceng/public/_packaging/dotnet7/nuget/v3/index.json
       - name: Restore .NET packages
         run: dotnet restore
       - name: Lint .NET code
@@ -87,7 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout source code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Build front container image
         run: |
           docker build . --file src/BlazorWasmApp/Dockerfile --tag $CONTAINER_REGITRY_DOMAIN/$IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }}
@@ -118,8 +118,8 @@ jobs:
         with:
           image-repository: ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmadapterwebapi
           image-tag: ${{ env.IMAGE_TAG }}
-          min-high-cves-to-fail: "16"
-          min-medium-cves-to-fail: "11"
+          min-high-cves-to-fail: "1"
+          min-medium-cves-to-fail: "1"
       - name: Scan CRM adapter container image with Trivy
         if: ${{ vars.USE_TRIVY == 'true' }}
         uses: aquasecurity/trivy-action@master
@@ -139,8 +139,8 @@ jobs:
         with:
           image-repository: ${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmdatawebapi
           image-tag: ${{ env.IMAGE_TAG }}
-          min-high-cves-to-fail: "16"
-          min-medium-cves-to-fail: "11"
+          min-high-cves-to-fail: "1"
+          min-medium-cves-to-fail: "1"
       - name: Scan CRM Data container image with Trivy
         if: ${{ vars.USE_TRIVY == 'true' }}
         uses: aquasecurity/trivy-action@master
@@ -155,4 +155,4 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CONTAINER_REGITRY_DOMAIN: docker.io
       IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
-      IMAGE_TAG: 1.0.${{ github.run_id }}
+      IMAGE_TAG: 1.1.${{ github.run_id }}

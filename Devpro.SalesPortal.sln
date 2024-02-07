@@ -5,29 +5,26 @@ VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWasmApp", "src\BlazorWasmApp\BlazorWasmApp.csproj", "{BA566E85-EFAA-45FC-B6CA-F5FA3D485884}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4D85DD21-F9D1-4E9A-ABA2-3638439DCA47}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0 - Solution Items", "0 - Solution Items", "{4D85DD21-F9D1-4E9A-ABA2-3638439DCA47}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
-		compose.yaml = compose.yaml
 		CONTRIBUTING.md = CONTRIBUTING.md
-		.docker\nginx.conf = .docker\nginx.conf
-		.docker\otel-collector-config.yaml = .docker\otel-collector-config.yaml
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrmAdapterWebApi", "src\CrmAdapterWebApi\CrmAdapterWebApi.csproj", "{190D535C-CBD8-4EC6-BA2D-6B324F3A3638}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Front End", "Front End", "{9F0BE87F-6F95-4268-BB60-9828C022B72A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Front End", "4 - Front End", "{9F0BE87F-6F95-4268-BB60-9828C022B72A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Back End", "Back End", "{5347A9D3-C90D-4B79-9D90-8E71777CA568}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Back End", "3 - Back End", "{5347A9D3-C90D-4B79-9D90-8E71777CA568}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{A2B61F72-E6AF-42E5-ABE9-62BB4B583983}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Shared", "2 - Shared", "{A2B61F72-E6AF-42E5-ABE9-62BB4B583983}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesDomain", "src\SalesDomain\SalesDomain.csproj", "{B7F29011-96B3-422D-9C26-45C82B991DCD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{4226EB06-2B7A-4CA1-B153-FA0EF0DEDAAC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Common", "1 - Common", "{4226EB06-2B7A-4CA1-B153-FA0EF0DEDAAC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.AspNetCore", "src\Common.AspNetCore\Common.AspNetCore.csproj", "{1ECBBB73-7867-4B45-9BEC-E5E3AF5F5D4F}"
 EndProject
@@ -40,6 +37,23 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common.DataModel", "src\Common.DataModel\Common.DataModel.csproj", "{D4A86D6A-528B-4E22-BD0E-2A68FC937001}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrmDataWebApi.IntegrationTests", "test\CrmDataWebApi.IntegrationTests\CrmDataWebApi.IntegrationTests.csproj", "{D50A028D-C018-4E64-823E-508199AD939A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{403899D1-EEEE-431D-901D-5A2CAB124A2E}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yaml = .github\workflows\ci.yaml
+		.github\workflows\pkg.yaml = .github\workflows\pkg.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "containers", "containers", "{CEB61312-A5EC-4B3A-989F-5BAACE970469}"
+	ProjectSection(SolutionItems) = preProject
+		.docker\nginx.conf = .docker\nginx.conf
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "local", "local", "{B221A472-72E4-45B4-BD34-B16514EDB531}"
+	ProjectSection(SolutionItems) = preProject
+		compose.yaml = compose.yaml
+		.docker\otel-collector-config.yaml = .docker\otel-collector-config.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +111,9 @@ Global
 		{A635B2F2-A445-4051-9F02-472D7C91BAAC} = {4226EB06-2B7A-4CA1-B153-FA0EF0DEDAAC}
 		{D4A86D6A-528B-4E22-BD0E-2A68FC937001} = {4226EB06-2B7A-4CA1-B153-FA0EF0DEDAAC}
 		{D50A028D-C018-4E64-823E-508199AD939A} = {5347A9D3-C90D-4B79-9D90-8E71777CA568}
+		{403899D1-EEEE-431D-901D-5A2CAB124A2E} = {4D85DD21-F9D1-4E9A-ABA2-3638439DCA47}
+		{CEB61312-A5EC-4B3A-989F-5BAACE970469} = {4D85DD21-F9D1-4E9A-ABA2-3638439DCA47}
+		{B221A472-72E4-45B4-BD34-B16514EDB531} = {4D85DD21-F9D1-4E9A-ABA2-3638439DCA47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88F15213-6526-4156-876C-B5363E6A28FE}

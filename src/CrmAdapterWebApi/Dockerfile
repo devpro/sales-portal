@@ -1,18 +1,22 @@
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
+FROM registry.suse.com/bci/dotnet-aspnet:8.0 AS base
+RUN useradd -m -s /bin/bash app # TODO: remove when new version is published
+USER app
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 8080
+EXPOSE 8081
 
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM registry.suse.com/bci/dotnet-sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/", "./"]
 RUN dotnet restore "CrmAdapterWebApi/CrmAdapterWebApi.csproj"
 COPY . .
 WORKDIR "/src/CrmAdapterWebApi"
-RUN dotnet build "CrmAdapterWebApi.csproj" -c Release -o /app/build
+RUN dotnet build "CrmAdapterWebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "CrmAdapterWebApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "CrmAdapterWebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

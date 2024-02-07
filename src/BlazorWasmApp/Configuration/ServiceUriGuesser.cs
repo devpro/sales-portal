@@ -8,6 +8,17 @@ namespace Devpro.SalesPortal.BlazorWasmApp.Configuration
         {
             var hostAddress = builder.HostEnvironment.BaseAddress;
 
+            var backendUri = FindAndReplaceBackendUri(hostAddress);
+
+            Console.WriteLine(string.Format("Found backend URI {0}", backendUri));
+
+            return backendUri;
+        }
+
+        private static Uri FindAndReplaceBackendUri(string hostAddress)
+        {
+            // TODO: this method should be unit tested
+
             if (hostAddress == "http://localhost:5268/")
             {
                 return new Uri("http://localhost:5261/");
