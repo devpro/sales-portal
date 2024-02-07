@@ -55,6 +55,7 @@ jobs:
       - name: Install Java 21 # required by Sonar scanner
         uses: actions/setup-java@v4
         with:
+          distribution: 'temurin'
           java-version: '21'
       - name: Install .NET glocal tools (JRE 21, Sonar Scanner for .NET)
         run: |
