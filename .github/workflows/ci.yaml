@@ -57,9 +57,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '21'
-      - name: Install .NET glocal tools (JRE 21, Sonar Scanner for .NET)
+      - name: Install .NET global tools (Sonar Scanner for .NET)
         run: |
-          #sudo apt-get install --yes openjdk-21-jre
           dotnet tool install --global dotnet-sonarscanner
           export PATH="$PATH:/root/.dotnet/tools"
       - name: Install & start MongoDB 7.0
@@ -85,7 +84,6 @@ jobs:
         run: sudo systemctl stop mongod
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #JAVA_HOME: $JAVA_HOME_21_X64
       SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
