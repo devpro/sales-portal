@@ -1,5 +1,4 @@
 FROM registry.suse.com/bci/dotnet-aspnet:8.0 AS base
-RUN useradd -m -s /bin/bash app # TODO: remove when new version is published
 USER app
 WORKDIR /app
 EXPOSE 8080
