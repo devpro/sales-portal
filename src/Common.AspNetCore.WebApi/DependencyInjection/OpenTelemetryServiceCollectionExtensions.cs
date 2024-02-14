@@ -25,6 +25,7 @@ namespace Devpro.Common.AspNetCore.WebApi.DependencyInjection
             ArgumentNullException.ThrowIfNull(logging);
 
             services.AddOpenTelemetry()
+                // traces
                 .WithTracing(tracerProviderBuilder =>
                     tracerProviderBuilder
                         .AddSource(configuration.OpenTelemetryService)
@@ -40,6 +41,7 @@ namespace Devpro.Common.AspNetCore.WebApi.DependencyInjection
                         })
                         .AddHttpClientInstrumentation()
                         .AddOtlpExporter(options => options.Endpoint = new Uri(configuration.OpenTelemetryCollectorEndpoint)))
+                // metrics
                 .WithMetrics(metricsProviderBuilder =>
                     metricsProviderBuilder
                         .ConfigureResource(resourceBuilder => resourceBuilder
