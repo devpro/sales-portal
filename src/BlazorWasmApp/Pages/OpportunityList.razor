@@ -3,40 +3,125 @@
 
 <PageTitle>Opportunities</PageTitle>
 
-<h1>Sales opportunities</h1>
+<div class="row">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-8 col-xl-8">
+        <div class="row">
+            <div class="col"><h3>Opportunities</h3></div>
+            <div class="col">
+                <button type="button" class="btn btn-info float-right" @onclick="ShowCreate">Create</button>
+            </div>
+        </div>
 
-<p>This component demonstrates fetching data from the server.</p>
-
-@if (opportunities == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var opportunity in opportunities)
+        <div class="row">
+            @if (opportunities == null)
             {
-                <tr>
-                    <td>@opportunity.Id</td>
-                    <td>@opportunity.Name</td>
-                </tr>
+                <p>Loading...</p>
             }
-        </tbody>
-    </table>
-}
+            else
+            {
+                @foreach (var opportunity in opportunities)
+                {
+                    <div class="col-12 col-sm-6 col-md-6 col-lg-6 col-xl-4 mh-25 mb-4">
+                        <div class="card @(selected?.Id == opportunity.Id ? "bg-light" : "")">
+                            <div class="card-body">
+                                <h5 class="card-title">@opportunity.Name</h5>
+                                @*<p class="card-text">@opportunity.Description.Substring(0, 80) ...</p>*@
+                                <a href="/opportunities" @onclick="() => GetDetails(opportunity.Id)">More...</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+        @if (selected is not null)
+        {
+            <EditForm class="container" Model="selected" OnValidSubmit="HandleValidSubmit">
+
+                <DataAnnotationsValidator />
+                <ValidationSummary />
+
+                <div class="form-group">
+                    <label for="title">Name</label>
+                    <InputText id="title" @bind-Value="selected.Name" placeholder="Opportunity name..." class="form-control" />
+                </div>
+
+                @*<div class="form-group">
+            <label for="description">Description</label>
+            <InputTextArea id="description" @bind-Value="selected.Description" placeholder="Description..." class="form-control" rows="7" />
+            </div>*@
+
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-success">Save</button>
+                    </div>
+                    <div class="col">
+                        <button type="button" @onclick="Delete" class="btn btn-danger float-right">Delete</button>
+                    </div>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <p>No item selected</p>
+        }
+    </div>
+</div>
 
 @code {
     private OpportunityDto[]? opportunities;
+    private OpportunityDto? selected;
 
     protected override async Task OnInitializedAsync()
     {
+        await Load();
+    }
+
+    async Task Load()
+    {
+        selected = null;
         opportunities = await Http.GetFromJsonAsync<OpportunityDto[]>("opportunities");
+    }
+
+    async Task GetDetails(string id)
+    {
+        selected = await Http.GetFromJsonAsync<OpportunityDto>($"opportunities/{id}");
+    }
+
+    async Task HandleValidSubmit()
+    {
+        if (selected == null)
+        {
+            throw new Exception("No selected item");
+        }
+
+        var response = string.IsNullOrEmpty(selected.Id)
+            ? await Http.PostAsJsonAsync<OpportunityDto>("opportunities", selected)
+            : await Http.PutAsJsonAsync<OpportunityDto>($"opportunities/{selected.Id}", selected);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await Load();
+        }
+    }
+
+    async Task Delete()
+    {
+        if (selected == null)
+        {
+            throw new Exception("No selected item");
+        }
+
+        await Http.DeleteAsync($"opportunities/{selected.Id}");
+
+        selected = null;
+        await Load();
+    }
+
+    void ShowCreate()
+    {
+        selected = new();
     }
 }
