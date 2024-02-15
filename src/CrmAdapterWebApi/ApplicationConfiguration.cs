@@ -1,12 +1,7 @@
 ﻿namespace Devpro.SalesPortal.CrmAdapterWebApi
 {
-    public class ApplicationConfiguration : WebApiConfiguration
+    public class ApplicationConfiguration(IConfigurationRoot configurationRoot) : WebApiConfiguration(configurationRoot)
     {
-        public ApplicationConfiguration(IConfigurationRoot configurationRoot)
-            : base(configurationRoot)
-        {
-        }
-
         public string CrmDataWebApiUrl => TryGetSection("CrmDataWebApi:Url").Get<string>() ?? string.Empty;
     }
 }

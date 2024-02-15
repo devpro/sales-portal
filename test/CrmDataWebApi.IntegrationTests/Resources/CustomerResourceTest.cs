@@ -4,13 +4,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 namespace Devpro.SalesPortal.CrmDataWebApi.IntegrationTests.Resources
 {
     [Trait("Category", "IntegrationTests")]
-    public class CustomerResourceTest : IntegrationTestBase
+    public class CustomerResourceTest(WebApplicationFactory<Program> factory) : IntegrationTestBase(factory)
     {
-        public CustomerResourceTest(WebApplicationFactory<Program> factory)
-            : base(factory)
-        {
-        }
-
         [Theory]
         [InlineData("/customers")]
         public async Task Get_CustomersReturnSuccessAndCorrectContentType(string url)
