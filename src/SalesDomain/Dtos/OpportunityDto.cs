@@ -1,4 +1,4 @@
-﻿using Devpro.Common.AspNetCore.Mvc;
+﻿using Devpro.Common.DataModel;
 
 namespace Devpro.SalesPortal.SalesDomain.Dtos
 {

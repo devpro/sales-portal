@@ -1,4 +1,4 @@
-﻿namespace Devpro.Common.AspNetCore.Mvc
+﻿namespace Devpro.Common.DataModel
 {
     public interface IDto
     {

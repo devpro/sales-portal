@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Devpro.Common.DataModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
