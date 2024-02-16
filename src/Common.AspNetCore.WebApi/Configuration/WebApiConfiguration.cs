@@ -25,7 +25,7 @@ namespace Devpro.Common.AspNetCore.WebApi.Configuration
 
         public static string HealthCheckEndpoint => "/health";
 
-        public OpenApiInfo OpenApi => TryGetSection("OpenApi").Get<OpenApiInfo>() ?? throw new Exception("OpenApi configuration mussing");
+        public OpenApiInfo OpenApi => TryGetSection("OpenApi").Get<OpenApiInfo>() ?? throw new Exception("OpenApi configuration missing");
 
         public string OpenTelemetryService => TryGetSection("OpenTelemetry:ServiceName").Get<string>() ?? "";
 
