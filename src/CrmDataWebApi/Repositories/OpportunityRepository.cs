@@ -4,13 +4,9 @@ using Devpro.SalesPortal.SalesDomain.Dtos;
 
 namespace Devpro.SalesPortal.CrmDataWebApi.Repositories
 {
-    public class OpportunityRepository : CrudRepositoryBase<OpportunityDto, Opportunity>
+    public class OpportunityRepository(IMongoClientFactory mongoClientFactory, ILogger<OpportunityRepository> logger, MongoDbConfiguration configuration, IMapper mapper)
+        : CrudRepositoryBase<OpportunityDto, Opportunity>(mongoClientFactory, logger, configuration, mapper)
     {
-        public OpportunityRepository(IMongoClientFactory mongoClientFactory, ILogger<OpportunityRepository> logger, MongoDbConfiguration configuration, IMapper mapper)
-            : base(mongoClientFactory, logger, configuration, mapper)
-        {
-        }
-
         protected override string CollectionName => "sales_opportunity";
     }
 }

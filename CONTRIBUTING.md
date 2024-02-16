@@ -8,7 +8,7 @@ Make sure to have local certificates for https debugging: `dotnet dev-certs http
 
 ## Build & run
 
-ℹ Examples are made with Docker CLI and expect a running container engine, which can be available with Docker Desktop or Rancher Desktop on developer workstations.
+💡 Examples are made with Docker CLI and expect a running container engine, which can be available with Docker Desktop or Rancher Desktop on developer workstations.
 
 ### All-in-one
 
@@ -53,5 +53,3 @@ Use Chrome to be able to debug the Blazor WebAssembly application (breakpoints a
 ## Next
 
 * Integrate with [SuiteCRM](https://github.com/salesagility/SuiteCRM) ([Bitnami's Helm chart](https://github.com/bitnami/charts/tree/main/bitnami/suitecrm/#installing-the-chart)).
-* Improve observability stack
-  * See [Depechie/OpenTelemetryGrafana](https://github.com/Depechie/OpenTelemetryGrafana)

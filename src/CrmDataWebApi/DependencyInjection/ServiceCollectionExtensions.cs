@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Devpro.SalesPortal.CrmDataWebApi.Repositories;
+﻿using Devpro.SalesPortal.CrmDataWebApi.Repositories;
 using Devpro.SalesPortal.SalesDomain.Dtos;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 

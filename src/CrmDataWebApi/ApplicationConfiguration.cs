@@ -1,11 +1,7 @@
 ﻿namespace Devpro.SalesPortal.CrmDataWebApi
 {
-    public class ApplicationConfiguration : WebApiConfiguration
+    public class ApplicationConfiguration(IConfigurationRoot configurationRoot) : WebApiConfiguration(configurationRoot)
     {
-        public ApplicationConfiguration(IConfigurationRoot configurationRoot)
-            : base(configurationRoot)
-        {
-        }
         public MongoDbConfiguration MongoDbConfiguration =>
             new()
             {
