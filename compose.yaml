@@ -18,9 +18,8 @@ services:
     privileged: true
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://[::]:8080
-      - Logging__LogLevel__Default=Debug
-      - Logging__LogLevel__Microsoft__AspNetCore=Debug
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__Microsoft.AspNetCore=Information
       - Logging__LogLevel__Devpro=Debug
       - AllowedOrigins__0=http://localhost:9001
       - Application__IsHttpsRedirectionEnabled=false
@@ -39,7 +38,9 @@ services:
       dockerfile: ./src/CrmDataWebApi/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://[::]:8080
+      - Logging__LogLevel__Default=Information
+      - Logging__LogLevel__Microsoft.AspNetCore=Information
+      - Logging__LogLevel__Devpro=Debug
       - AllowedOrigins__0=http://localhost:9002
       - AllowedOrigins__1=http://adapter:9002
       - Application__IsHttpsRedirectionEnabled=false
@@ -54,15 +55,15 @@ services:
     depends_on:
       - mongodb
       - otelcollector
-  mongodb:
-    image: mongo:7.0
-    ports:
-      - "27017:27017"
   otelcollector:
-    image: otel/opentelemetry-collector
+    image: otel/opentelemetry-collector-contrib
     command: [--config=/etc/otel-collector-config.yaml]
     volumes:
       - ./.docker/otel-collector-config.yaml:/etc/otel-collector-config.yaml
+    environment:
+      - MONGODB_ENDPOINT=mongodb:27017
+      # - MONGODB_USERNAME=
+      # - MONGODB_PASSWORD=
     ports:
       - 1888:1888   # pprof extension
       - 8888:8888   # Prometheus metrics exposed by the collector
@@ -71,3 +72,9 @@ services:
       - 4317:4317   # OTLP gRPC receiver
       - 4318:4318   # OTLP http receiver
       - 55679:55679 # zpages extension
+    depends_on:
+      - mongodb
+  mongodb:
+    image: mongo:7.0
+    ports:
+      - "27017:27017"
