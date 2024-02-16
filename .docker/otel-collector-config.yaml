@@ -34,11 +34,11 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [debug/normal]
+      exporters: [debug/detailed]
     metrics:
       receivers: [otlp, mongodb]
       processors: [batch]
-      exporters: [debug/detailed]
+      exporters: [debug/normal]
     logs:
       receivers: [otlp]
       processors: [batch]

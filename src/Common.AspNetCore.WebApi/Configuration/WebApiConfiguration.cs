@@ -35,6 +35,8 @@ namespace Devpro.Common.AspNetCore.WebApi.Configuration
 
         public string OpenTelemetryCollectorEndpoint => TryGetSection("OpenTelemetry:CollectorEndpoint").Get<string>() ?? "";
 
+        public string OpenTelemetryCollectorAuthorization => TryGetSection("OpenTelemetry:CollectorAuthorization").Get<string>() ?? "";
+
         // protected methods
 
         protected IConfigurationSection TryGetSection(string sectionKey)

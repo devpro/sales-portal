@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
+using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 
 namespace Devpro.Common.MongoDb
 {
@@ -13,7 +14,9 @@ namespace Devpro.Common.MongoDb
 
         public virtual MongoClient CreateClient(string connectionString)
         {
-            return new MongoClient(connectionString);
+            var clientSettings = MongoClientSettings.FromConnectionString(connectionString);
+            clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber());
+            return new MongoClient(clientSettings);
         }
 
         /// <summary>
