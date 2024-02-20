@@ -5,14 +5,9 @@ using Microsoft.OpenApi.Models;
 
 namespace Devpro.Common.AspNetCore.WebApi.Configuration
 {
-    public class WebApiConfiguration
+    public class WebApiConfiguration(IConfigurationRoot configurationRoot)
     {
-        protected IConfigurationRoot ConfigurationRoot { get; }
-
-        public WebApiConfiguration(IConfigurationRoot configurationRoot)
-        {
-            ConfigurationRoot = configurationRoot;
-        }
+        protected IConfigurationRoot ConfigurationRoot { get; } = configurationRoot;
 
         // flags
 
@@ -30,22 +25,24 @@ namespace Devpro.Common.AspNetCore.WebApi.Configuration
 
         public static string HealthCheckEndpoint => "/health";
 
-        public OpenApiInfo OpenApi => TryGetSection("OpenApi").Get<OpenApiInfo>() ?? throw new Exception("");
+        public OpenApiInfo OpenApi => TryGetSection("OpenApi").Get<OpenApiInfo>() ?? throw new Exception("OpenApi configuration missing");
 
         public string OpenTelemetryService => TryGetSection("OpenTelemetry:ServiceName").Get<string>() ?? "";
 
         // infrastructure
 
-        public List<string> CorsAllowedOrigin => TryGetSection("AllowedOrigins").Get<List<string>>() ?? new List<string>();
+        public List<string> CorsAllowedOrigin => TryGetSection("AllowedOrigins").Get<List<string>>() ?? [];
 
         public string OpenTelemetryCollectorEndpoint => TryGetSection("OpenTelemetry:CollectorEndpoint").Get<string>() ?? "";
+
+        public string OpenTelemetryCollectorAuthorization => TryGetSection("OpenTelemetry:CollectorAuthorization").Get<string>() ?? "";
 
         // protected methods
 
         protected IConfigurationSection TryGetSection(string sectionKey)
         {
             return ConfigurationRoot.GetSection(sectionKey)
-                ?? throw new ArgumentException("Missing section \"" + sectionKey + "\" in configuration", nameof(sectionKey));
+                ?? throw new ArgumentException($"Missing section \"{sectionKey}\" in configuration", nameof(sectionKey));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Devpro.Common.DataModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -24,7 +25,7 @@ namespace Devpro.Common.AspNetCore.Mvc
         public virtual async Task<ActionResult<List<T>>> Get()
         {
             var items = await _repository.FindAllAsync();
-            _logger.LogInformation("Get all items return {0} elements", items.Count);
+            _logger.LogInformation("Get all items returns {Count} elements", items.Count);
             return Ok(items);
         }
 
@@ -46,7 +47,7 @@ namespace Devpro.Common.AspNetCore.Mvc
                 return NotFound();
             }
 
-            _logger.LogInformation("Get item by id return element \"{0}\"", item.Name);
+            _logger.LogInformation("Get item by id returns element {Name}", item.Name);
 
             return Ok(item);
         }
@@ -56,7 +57,7 @@ namespace Devpro.Common.AspNetCore.Mvc
         public async Task<IActionResult> Post([FromBody] T input)
         {
             var item = await _repository.CreateAsync(input);
-            _logger.LogInformation("Item created \"{0}\"", item.Name);
+            _logger.LogInformation("Item created {Id} {Name}", item.Id, item.Name);
             // beware: ASP.NET removes "Async" from method names (see https://stackoverflow.com/a/63834605/12866734)
             return CreatedAtAction(nameof(GetById), new { id = item.Id }, item);
         }
@@ -78,7 +79,7 @@ namespace Devpro.Common.AspNetCore.Mvc
             }
 
             await _repository.UpdateAsync(id, input);
-            _logger.LogInformation("Item updated \"{0}\"", id);
+            _logger.LogInformation("Item updated {Id}", id);
             return NoContent();
         }
 
@@ -94,7 +95,7 @@ namespace Devpro.Common.AspNetCore.Mvc
             }
 
             await _repository.DeleteAsync(id);
-            _logger.LogInformation("Item deleted \"{0}\"", id);
+            _logger.LogInformation("Item deleted {Id}", id);
             return NoContent();
         }
     }

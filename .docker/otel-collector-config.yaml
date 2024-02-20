@@ -1,4 +1,14 @@
 receivers:
+  mongodb:
+    hosts:
+      - endpoint: ${env:MONGODB_ENDPOINT}
+    # username: ${env:MONGODB_USERNAME}
+    # password: ${env:MONGODB_PASSWORD}
+    collection_interval: 60s
+    initial_delay: 1s
+    tls:
+      insecure: true
+      insecure_skip_verify: true
   otlp:
     protocols:
       grpc:
@@ -8,8 +18,10 @@ processors:
   batch:
 
 exporters:
-  logging:
-    loglevel: debug
+  debug/detailed:
+    verbosity: detailed
+  debug/normal:
+    verbosity: normal
 
 extensions:
   health_check:
@@ -22,12 +34,12 @@ service:
     traces:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging]
+      exporters: [debug/detailed]
     metrics:
-      receivers: [otlp]
+      receivers: [otlp, mongodb]
       processors: [batch]
-      exporters: [logging]
+      exporters: [debug/normal]
     logs:
       receivers: [otlp]
       processors: [batch]
-      exporters: [logging]
+      exporters: [debug/normal]

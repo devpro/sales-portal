@@ -11,11 +11,11 @@ COPY ["src/", "./"]
 RUN dotnet restore "CrmDataWebApi/CrmDataWebApi.csproj"
 COPY . .
 WORKDIR "/src/CrmDataWebApi"
-RUN dotnet build "CrmDataWebApi.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "CrmDataWebApi.csproj" -c "$BUILD_CONFIGURATION" -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "CrmDataWebApi.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "CrmDataWebApi.csproj" -c "$BUILD_CONFIGURATION" -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

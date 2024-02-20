@@ -6,9 +6,7 @@
 
 Make sure to have local certificates for https debugging: `dotnet dev-certs https`.
 
-## Build & run
-
-ℹ Examples are made with Docker CLI and expect a running container engine, which can be available with Docker Desktop or Rancher Desktop on developer workstations.
+💡 Examples are made with Docker CLI and expect a running container engine, which can be available with Docker Desktop or Rancher Desktop on developer workstations.
 
 ### All-in-one
 
@@ -46,12 +44,16 @@ Runs the image with `docker run -it --rm -p 9002:80 -e ASPNETCORE_ENVIRONMENT=De
 
 Open [localhost:9003/swagger](http://localhost:9003/swagger) in a browser.
 
-## Debug
+### Debug
 
 Use Chrome to be able to debug the Blazor WebAssembly application (breakpoints are not hit in Firefox). In Visual Studio 2022, click on the Run menu (displaying http for example) and select Chrome as browser.
 
 ## Next
 
 * Integrate with [SuiteCRM](https://github.com/salesagility/SuiteCRM) ([Bitnami's Helm chart](https://github.com/bitnami/charts/tree/main/bitnami/suitecrm/#installing-the-chart)).
-* Improve observability stack
-  * See [Depechie/OpenTelemetryGrafana](https://github.com/Depechie/OpenTelemetryGrafana)
+
+## Design
+
+### .NET librairies
+
+* [jbogard/MongoDB.Driver.Core.Extensions.DiagnosticSources](https://github.com/jbogard/MongoDB.Driver.Core.Extensions.DiagnosticSources)

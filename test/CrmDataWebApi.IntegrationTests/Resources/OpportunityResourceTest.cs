@@ -4,13 +4,8 @@ using Microsoft.AspNetCore.Mvc.Testing;
 namespace Devpro.SalesPortal.CrmDataWebApi.IntegrationTests.Resources
 {
     [Trait("Category", "IntegrationTests")]
-    public class OpportunityResourceTest : IntegrationTestBase
+    public class OpportunityResourceTest(WebApplicationFactory<Program> factory) : IntegrationTestBase(factory)
     {
-        public OpportunityResourceTest(WebApplicationFactory<Program> factory)
-            : base(factory)
-        {
-        }
-
         [Theory]
         [InlineData("/opportunities")]
         public async Task Get_OpportunitiesReturnSuccessAndCorrectContentType(string url)

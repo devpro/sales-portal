@@ -39,7 +39,7 @@
                 throw new Exception($"The response status \"{response.StatusCode}\" is not a success (reason=\"{response.ReasonPhrase}\")");
             }
 
-            return await response.Content.ReadFromJsonAsync<List<T>>() ?? new List<T>();
+            return await response.Content.ReadFromJsonAsync<List<T>>() ?? [];
         }
 
         public async Task<T> CreateAsync(T input)

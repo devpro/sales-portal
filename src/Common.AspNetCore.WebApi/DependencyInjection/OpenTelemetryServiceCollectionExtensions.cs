@@ -40,7 +40,15 @@ namespace Devpro.Common.AspNetCore.WebApi.DependencyInjection
                             };
                         })
                         .AddHttpClientInstrumentation()
-                        .AddOtlpExporter(options => options.Endpoint = new Uri(configuration.OpenTelemetryCollectorEndpoint)))
+                        .AddSource("MongoDB.Driver.Core.Extensions.DiagnosticSources")
+                        .AddOtlpExporter(options =>
+                        {
+                            options.Endpoint = new Uri(configuration.OpenTelemetryCollectorEndpoint);
+                            if (!string.IsNullOrEmpty(configuration.OpenTelemetryCollectorAuthorization))
+                            {
+                                options.Headers = $"Authorization={configuration.OpenTelemetryCollectorAuthorization}";
+                            }
+                        }))
                 // metrics
                 .WithMetrics(metricsProviderBuilder =>
                     metricsProviderBuilder
