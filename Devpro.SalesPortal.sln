@@ -55,6 +55,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "local", "local", "{B221A472
 		.docker\otel-collector-config.yaml = .docker\otel-collector-config.yaml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E7631B55-9E65-4924-A739-2C04F2AF8900}"
+	ProjectSection(SolutionItems) = preProject
+		docs\observability.md = docs\observability.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -114,6 +119,7 @@ Global
 		{403899D1-EEEE-431D-901D-5A2CAB124A2E} = {4D85DD21-F9D1-4E9A-ABA2-3638439DCA47}
 		{CEB61312-A5EC-4B3A-989F-5BAACE970469} = {4D85DD21-F9D1-4E9A-ABA2-3638439DCA47}
 		{B221A472-72E4-45B4-BD34-B16514EDB531} = {4D85DD21-F9D1-4E9A-ABA2-3638439DCA47}
+		{E7631B55-9E65-4924-A739-2C04F2AF8900} = {4D85DD21-F9D1-4E9A-ABA2-3638439DCA47}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {88F15213-6526-4156-876C-B5363E6A28FE}
