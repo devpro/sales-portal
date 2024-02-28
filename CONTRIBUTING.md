@@ -1,20 +1,28 @@
-﻿# Contributing
+﻿# Contributing guide
 
 ## Local development
 
 [.NET SDK](https://dotnet.microsoft.com/en-us/download) is required to run the code.
 
-Make sure to have local certificates for https debugging: `dotnet dev-certs https`.
+Make sure to generate and trust the local certificates for HTTPS debugging:
 
-💡 Examples are made with Docker CLI and expect a running container engine, which can be available with Docker Desktop or Rancher Desktop on developer workstations.
+```bash
+dotnet dev-certs https
+```
+
+💡 Examples are made with Docker CLI and expect a running container engine, which can be available with Docker Desktop or Rancher Desktop on developer workstations
 
 ### All-in-one
 
-All the definitions are written in `compose.yaml` file at the root of the repository.
+All the definitions are written in the `compose.yaml` file at the root of the repository, which is used to run the commands:
 
-Build images with `docker compose build`.
+```bash
+# builds the images
+docker compose build
 
-Use `docker compose <up|start|stop|down>` to manage running containers.
+# manages containers
+docker compose <up|start|stop|down>
+```
 
 Open [localhost:9001](http://localhost:9001/) in a browser.
 
