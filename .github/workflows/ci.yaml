@@ -58,6 +58,7 @@ jobs:
         run: |
           export PATH="$PATH:/root/.dotnet/tools"
           dotnet tool install --global dotnet-sonarscanner
+          dotnet tool install --global dotnet-reportgenerator-globaltool
       - name: Install & start MongoDB 8.0
         run: |
           # follows documentation (https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/)
@@ -70,20 +71,27 @@ jobs:
           sudo apt-get install -y mongodb-org
           sudo systemctl start mongod
       - name: Start code analysis
-        run: dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /o:"$SONAR_ORG" /n:"Sales Portal" /d:sonar.login="$SONAR_TOKEN"
+        run: dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /o:"$SONAR_ORG" /n:"Sales Portal" /d:sonar.token="$SONAR_TOKEN" $SONAR_EXTRA_PARAMETERS
       - name: Build .NET solution
         run: dotnet build --no-restore
       - name: Run tests
-        run: dotnet test --no-build --verbosity normal
+        run: dotnet test --configuration Debug --no-build --verbosity normal --logger:"junit;LogFilePath=..\..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose" --collect:"XPlat Code Coverage"
+      - name: Generate test report
+        run: |
+          reportgenerator "-reports:$DOTNET_TEST_COVERAGE_XMLFILES" -targetdir:$DOTNET_TEST_REPORT_FOLDER "-reporttypes:Cobertura;Html;TextSummary;SonarQube"
+          cat $DOTNET_TEST_REPORT_FOLDER/Summary.txt
       - name: Stop code analysis
         run: dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
       - name: Stop MongoDB
         run: sudo systemctl stop mongod
     env:
+      DOTNET_TEST_COVERAGE_XMLFILES: ./test/*/TestResults/*/coverage.cobertura.xml
+      DOTNET_TEST_REPORT_FOLDER: report
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      SONAR_EXTRA_PARAMETERS: /d:sonar.cpd.exclusions=**/*Generated*.cs,report/** /d:sonar.coverageReportPaths=report/SonarQube.xml
   image-scan:
     runs-on: ubuntu-latest
     steps:

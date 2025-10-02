@@ -351,3 +351,6 @@ MigrationBackup/
 
 # Local development files
 appsettings.Development.json
+
+# Test report files
+report/
