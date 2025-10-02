@@ -40,6 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrmDataWebApi.IntegrationTe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{403899D1-EEEE-431D-901D-5A2CAB124A2E}"
 	ProjectSection(SolutionItems) = preProject
+		.gitlab-ci.yml = .gitlab-ci.yml
 		.github\workflows\ci.yaml = .github\workflows\ci.yaml
 		.github\workflows\pkg.yaml = .github\workflows\pkg.yaml
 	EndProjectSection

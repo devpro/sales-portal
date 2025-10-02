@@ -1,0 +1,45 @@
+image: mcr.microsoft.com/dotnet/sdk:9.0
+
+stages:
+  - test
+
+services:
+  - name: mongo:8.0
+    alias: mongodb
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "web"
+
+test-dotnet:
+  stage: test
+  variables:
+    DOTNET_TEST_RESULT_XMLFILES: ./**/*test-result.xml
+    DOTNET_TEST_COVERAGE_XMLFILES: ./test/*/TestResults/*/coverage.cobertura.xml
+    DOTNET_TEST_REPORT_FOLDER: report
+    ConnectionStrings__MongoDbLocal: "mongodb://mongodb:27017/?readPreference=primary&appname=SalesPortalCrmDataWebApi&directConnection=true&ssl=false"
+  before_script:
+    - export PATH="$PATH:/root/.dotnet/tools"
+    - dotnet tool install --global dotnet-reportgenerator-globaltool
+  script:
+    - dotnet restore
+    - dotnet build --no-restore --configuration Debug
+    - dotnet test --no-build --configuration Debug --logger:"junit;LogFilePath=..\..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose" --collect:"XPlat Code Coverage"
+    - reportgenerator "-reports:$DOTNET_TEST_COVERAGE_XMLFILES" -targetdir:$DOTNET_TEST_REPORT_FOLDER "-reporttypes:Cobertura;Html;TextSummary"
+    - cat $DOTNET_TEST_REPORT_FOLDER/Summary.txt
+  artifacts:
+    when: always
+    paths:
+      - $DOTNET_TEST_RESULT_XMLFILES
+      - $DOTNET_TEST_COVERAGE_XMLFILES
+      - $DOTNET_TEST_REPORT_FOLDER/Cobertura.xml
+      - $DOTNET_TEST_REPORT_FOLDER/Summary.txt
+    reports:
+      junit:
+        - $DOTNET_TEST_RESULT_XMLFILES
+      coverage_report:
+        coverage_format: cobertura
+        path: $DOTNET_TEST_COVERAGE_XMLFILES
+  coverage: '/Line coverage: \d+(?:\.\d+)?%/'

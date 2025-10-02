@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>Devpro.SalesPortal.SalesDomain</AssemblyName>
     <RootNamespace>Devpro.SalesPortal.SalesDomain</RootNamespace>
     <ProjectGuid>{B7F29011-96B3-422D-9C26-45C82B991DCD}</ProjectGuid>

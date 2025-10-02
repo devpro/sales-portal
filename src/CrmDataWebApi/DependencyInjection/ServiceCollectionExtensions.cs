@@ -9,16 +9,22 @@ namespace Devpro.SalesPortal.CrmDataWebApi.DependencyInjection
         internal static IServiceCollection AddMapping(this IServiceCollection services)
         {
             // AutoMapper
-            var mappingConfig = new MapperConfiguration(x =>
+            services.AddSingleton(serviceProvider =>
             {
-                x.AddProfile(new Mapping.CrmDataMappingProfile());
-                x.CreateMap<MongoDB.Bson.ObjectId, string>().ConvertUsing<Mapping.ObjectIdToStringConverter>();
-                x.CreateMap<string, MongoDB.Bson.ObjectId>().ConvertUsing<Mapping.StringToObjectIdConverter>();
-                x.AllowNullCollections = true;
+                var loggerFactory = serviceProvider.GetService<ILoggerFactory>();
+
+                var mapperConfiguration = new MapperConfiguration(x =>
+                {
+                    x.AddProfile(new Mapping.CrmDataMappingProfile());
+                    x.CreateMap<MongoDB.Bson.ObjectId, string>().ConvertUsing<Mapping.ObjectIdToStringConverter>();
+                    x.CreateMap<string, MongoDB.Bson.ObjectId>().ConvertUsing<Mapping.StringToObjectIdConverter>();
+                    x.AllowNullCollections = true;
+                }, loggerFactory);
+
+                var mapper = mapperConfiguration.CreateMapper();
+                mapper.ConfigurationProvider.AssertConfigurationIsValid();
+                return mapper;
             });
-            var mapper = mappingConfig.CreateMapper();
-            mapper.ConfigurationProvider.AssertConfigurationIsValid();
-            services.AddSingleton(mapper);
 
             return services;
         }
