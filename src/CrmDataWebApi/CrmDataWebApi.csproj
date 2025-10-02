@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>Devpro.SalesPortal.CrmDataWebApi</AssemblyName>
     <RootNamespace>Devpro.SalesPortal.CrmDataWebApi</RootNamespace>
     <ProjectGuid>{60A2DB4F-03C2-4A98-8BAF-1D5E89F7DE14}</ProjectGuid>
@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="AutoMapper" Version="15.0.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/dotnet-sdk:8.0 AS build
+FROM registry.suse.com/bci/dotnet-sdk:9.0 AS build
 WORKDIR /src
 COPY ["src/", "./"]
 RUN dotnet restore BlazorWasmApp/BlazorWasmApp.csproj
