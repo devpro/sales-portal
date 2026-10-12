@@ -1,0 +1,25 @@
+# IstarCI configuration, read from the root of the repository.
+
+runner:
+  image: ghcr.io/devpro/ubuntu-dotnet:latest
+  images:
+    "image-scan*": ghcr.io/devpro/debian-node:latest
+  # The scan job builds images and scans them through the host Docker daemon.
+  docker: true
+
+workflow:
+  # The repository carries a GitLab pipeline too, and the GitHub one is what a local run exercises.
+  provider: github
+  # The pipeline runs on a push to main only, so a local run on a feature branch names it instead of evaluating its triggers.
+  file: .github/workflows/ci.yaml
+  # Delivery publishes on a push to the default branch, which a local run must never reach.
+  exclude:
+    - pkg.yaml
+
+# Repository variables the pipeline reads, which a local run otherwise gets as placeholders, and an image tag refuses the uppercase in one.
+vars:
+  # A local run holds no Sonar token, so an empty organization is what turns the analysis off there.
+  SONAR_ORG: ""
+  DOCKERHUB_NAMESPACE: devprofr
+  USE_TRIVY: "true"
+  USE_NEUVECTOR: "false"
