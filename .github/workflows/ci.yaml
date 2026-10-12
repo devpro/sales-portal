@@ -76,6 +76,9 @@ jobs:
         run: dotnet build --no-restore
       - name: Run tests
         run: dotnet test --configuration Debug --no-build --verbosity normal --logger:"junit;LogFilePath=..\..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose" --collect:"XPlat Code Coverage"
+        env:
+          # A runner image with a newer runtime only than the target framework still runs the tests, and with the exact runtime installed this changes nothing.
+          DOTNET_ROLL_FORWARD: Major
       - name: Generate test report
         run: |
           reportgenerator "-reports:$DOTNET_TEST_COVERAGE_XMLFILES" -targetdir:$DOTNET_TEST_REPORT_FOLDER "-reporttypes:Cobertura;Html;TextSummary;SonarQube"
