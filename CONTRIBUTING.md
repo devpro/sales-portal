@@ -65,3 +65,8 @@ Use Chrome to be able to debug the Blazor WebAssembly application (breakpoints a
 ### .NET librairies
 
 * [jbogard/MongoDB.Driver.Core.Extensions.DiagnosticSources](https://github.com/jbogard/MongoDB.Driver.Core.Extensions.DiagnosticSources)
+
+## Run the pipeline locally
+
+[IstarCI](https://github.com/devpro/istarci) runs the GitHub Actions pipeline in Docker before the push.
+`istarci add` and `istarci install-hook` set it up for this repository.
