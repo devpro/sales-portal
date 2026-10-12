@@ -1,4 +1,4 @@
-FROM registry.suse.com/bci/dotnet-sdk:9.0 AS build
+FROM registry.suse.com/bci/dotnet-sdk:10.0 AS build
 WORKDIR /src
 COPY ["src/", "./"]
 RUN dotnet restore BlazorWasmApp/BlazorWasmApp.csproj
@@ -9,7 +9,7 @@ RUN dotnet build BlazorWasmApp.csproj -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish BlazorWasmApp.csproj -c Release -o /app/publish
 
-FROM registry.suse.com/suse/nginx:1.21 AS final
+FROM registry.suse.com/suse/nginx:1.27 AS final
 WORKDIR /usr/share/nginx/html
 COPY --from=publish /app/publish/wwwroot .
 COPY .docker/nginx.conf /etc/nginx/nginx.conf
