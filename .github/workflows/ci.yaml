@@ -62,14 +62,8 @@ jobs:
           export PATH="$PATH:$HOME/.dotnet/tools"
           dotnet tool install --global dotnet-sonarscanner
           dotnet tool install --global dotnet-reportgenerator-globaltool
-      - name: Install & start MongoDB 8.2
-        run: |
-          # The runner image has no sudo, so MongoDB comes from its tarball into the temporary directory instead of the apt package.
-          mkdir -p "${RUNNER_TEMP}/mongodb/bin" "${RUNNER_TEMP}/mongodb/data"
-          curl -fsSL https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu2404-8.2.1.tgz |
-            tar xz --strip-components=2 -C "${RUNNER_TEMP}/mongodb/bin" --wildcards "*/bin/mongod"
-          "${RUNNER_TEMP}/mongodb/bin/mongod" --dbpath "${RUNNER_TEMP}/mongodb/data" --bind_ip 127.0.0.1 \
-            --fork --logpath "${RUNNER_TEMP}/mongodb/mongod.log"
+      - name: Start MongoDB
+        uses: devpro/github-workflow-parts/actions/mongodb/start@600c60e158424d3f9b233ec47e76cff1e79c3fdd
       - name: Start code analysis
         if: ${{ env.SONAR_ORG != '' }}
         run: dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /o:"$SONAR_ORG" /n:"Sales Portal" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.token="$SONAR_TOKEN" $SONAR_EXTRA_PARAMETERS
@@ -87,7 +81,7 @@ jobs:
       - name: Stop MongoDB
         if: ${{ always() }}
         run: |
-          "${RUNNER_TEMP}/mongodb/bin/mongod" --dbpath "${RUNNER_TEMP}/mongodb/data" --shutdown
+          mongod --dbpath "${RUNNER_TEMP}/mongodb/data" --shutdown
     env:
       DOTNET_TEST_COVERAGE_XMLFILES: ./test/*/TestResults/*/coverage.cobertura.xml
       DOTNET_TEST_REPORT_FOLDER: report
@@ -115,7 +109,7 @@ jobs:
           min-medium-cves-to-fail: "1"
       - name: Scan front container image with Trivy
         if: ${{ vars.USE_TRIVY == 'true' }}
-        uses: devpro/github-workflow-parts/actions/trivy/scan@defde40cfcaa2dc67c1cc47a27d20605f76d74b0
+        uses: devpro/github-workflow-parts/actions/trivy/scan@600c60e158424d3f9b233ec47e76cff1e79c3fdd
         with:
           target: '${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-wasmapp:${{ env.IMAGE_TAG }}'
           exit-code: '1'
@@ -135,7 +129,7 @@ jobs:
           min-medium-cves-to-fail: "1"
       - name: Scan CRM adapter container image with Trivy
         if: ${{ vars.USE_TRIVY == 'true' }}
-        uses: devpro/github-workflow-parts/actions/trivy/scan@defde40cfcaa2dc67c1cc47a27d20605f76d74b0
+        uses: devpro/github-workflow-parts/actions/trivy/scan@600c60e158424d3f9b233ec47e76cff1e79c3fdd
         with:
           target: '${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}'
           exit-code: '1'
@@ -155,7 +149,7 @@ jobs:
           min-medium-cves-to-fail: "1"
       - name: Scan CRM Data container image with Trivy
         if: ${{ vars.USE_TRIVY == 'true' }}
-        uses: devpro/github-workflow-parts/actions/trivy/scan@defde40cfcaa2dc67c1cc47a27d20605f76d74b0
+        uses: devpro/github-workflow-parts/actions/trivy/scan@600c60e158424d3f9b233ec47e76cff1e79c3fdd
         with:
           target: '${{ env.CONTAINER_REGITRY_DOMAIN }}/${{ env.IMAGE_FOLDER }}/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}'
           exit-code: '1'
