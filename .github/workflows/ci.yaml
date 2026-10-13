@@ -9,6 +9,7 @@
 #   - https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
 # variables:
 #   - DOCKERHUB_NAMESPACE
+#   - SONAR_HOST_URL (optional, SonarCloud otherwise)
 #   - SONAR_ORG
 #   - SONAR_PROJECT_KEY
 #   - USE_NEUVECTOR
@@ -71,7 +72,7 @@ jobs:
             --fork --logpath "${RUNNER_TEMP}/mongodb/mongod.log"
       - name: Start code analysis
         if: ${{ env.SONAR_ORG != '' }}
-        run: dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /o:"$SONAR_ORG" /n:"Sales Portal" /d:sonar.token="$SONAR_TOKEN" $SONAR_EXTRA_PARAMETERS
+        run: dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /o:"$SONAR_ORG" /n:"Sales Portal" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.token="$SONAR_TOKEN" $SONAR_EXTRA_PARAMETERS
       - name: Build .NET solution
         run: dotnet build --no-restore
       - name: Run tests
@@ -91,6 +92,7 @@ jobs:
       DOTNET_TEST_COVERAGE_XMLFILES: ./test/*/TestResults/*/coverage.cobertura.xml
       DOTNET_TEST_REPORT_FOLDER: report
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL || 'https://sonarcloud.io' }}
       SONAR_ORG: ${{ vars.SONAR_ORG }}
       SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
