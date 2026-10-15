@@ -5,7 +5,7 @@ runner:
   images:
     "image-scan*": ghcr.io/devpro/debian-node:latest
   # The scan job builds images and scans them through the host Docker daemon.
-  docker: true
+  docker: ["image-scan*"]
   # The analysis runs against the SonarQube IstarCI starts on this machine, with a token made there.
   sonarqube: true
 
