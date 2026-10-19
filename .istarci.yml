@@ -24,5 +24,3 @@ vars:
   SONAR_ORG: local
   SONAR_PROJECT_KEY: sales-portal
   DOCKERHUB_NAMESPACE: devprofr
-  USE_TRIVY: "true"
-  USE_NEUVECTOR: "false"
