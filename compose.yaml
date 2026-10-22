@@ -83,7 +83,7 @@ services:
     cap_add:
       - SYS_PTRACE
   mongodb:
-    image: mongo:8.0${IMAGE_SUFFIX:-}
+    image: mongo:9.0${IMAGE_SUFFIX:-}
     ports:
       - "27017:27017"
     cap_add:
