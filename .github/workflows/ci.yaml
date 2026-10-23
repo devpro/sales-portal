@@ -1,8 +1,5 @@
 # purpose: run Continuous Integration (build, unit test, lint, scan)
 # actions:
-#   - https://github.com/marketplace/actions/checkout  
-#   - https://github.com/marketplace/actions/setup-net-core-sdk
-#   - https://github.com/actions/setup-java
 #   - https://github.com/devpro/github-workflow-parts
 # images:
 #   - https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
@@ -35,59 +32,20 @@ permissions:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v5
-      - name: Install .NET 10.0
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: 10.0.x
-      - name: Restore .NET packages
-        run: dotnet restore
-      - name: Lint .NET code
-        run: dotnet format --verify-no-changes --severity warn --verbosity:diagnostic
-      - name: Install Java 21 # required by Sonar scanner
-        uses: actions/setup-java@v5
-        with:
-          distribution: 'temurin'
-          java-version: '21'
-      - name: Install .NET global tools (Sonar Scanner for .NET)
-        run: |
-          # The job user is not root, so the tools live in its home and the directory is added to the path of the next steps.
-          echo "$HOME/.dotnet/tools" >> "$GITHUB_PATH"
-          export PATH="$PATH:$HOME/.dotnet/tools"
-          dotnet tool install --global dotnet-sonarscanner
-          dotnet tool install --global dotnet-reportgenerator-globaltool
-      - name: Start MongoDB
-        uses: devpro/github-workflow-parts/actions/mongodb/start@c6d06a61a377a41dc192ce58f08a0b5100d9a2bc
-      - name: Start code analysis
-        if: ${{ env.SONAR_ORG != '' }}
-        run: dotnet sonarscanner begin /k:"$SONAR_PROJECT_KEY" /o:"$SONAR_ORG" /n:"Sales Portal" /d:sonar.host.url="$SONAR_HOST_URL" /d:sonar.token="$SONAR_TOKEN" $SONAR_EXTRA_PARAMETERS
-      - name: Build .NET solution
-        run: dotnet build --no-restore
-      - name: Run tests
-        run: dotnet test --configuration Debug --no-build --verbosity normal --logger:"junit;LogFilePath=..\..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose" --collect:"XPlat Code Coverage"
-      - name: Generate test report
-        run: |
-          reportgenerator "-reports:$DOTNET_TEST_COVERAGE_XMLFILES" -targetdir:$DOTNET_TEST_REPORT_FOLDER "-reporttypes:Cobertura;Html;TextSummary;SonarQube"
-          cat $DOTNET_TEST_REPORT_FOLDER/Summary.txt
-      - name: Stop code analysis
-        if: ${{ env.SONAR_ORG != '' }}
-        run: dotnet sonarscanner end /d:sonar.login="$SONAR_TOKEN"
-      - name: Stop MongoDB
-        if: ${{ always() }}
-        run: |
-          mongod --dbpath "${RUNNER_TEMP}/mongodb/data" --shutdown
-    env:
-      DOTNET_TEST_COVERAGE_XMLFILES: ./test/*/TestResults/*/coverage.cobertura.xml
-      DOTNET_TEST_REPORT_FOLDER: report
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL || 'https://sonarcloud.io' }}
-      SONAR_ORG: ${{ vars.SONAR_ORG }}
-      SONAR_PROJECT_KEY: ${{ vars.SONAR_PROJECT_KEY }}
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_EXTRA_PARAMETERS: /d:sonar.cpd.exclusions=**/*Generated*.cs,report/** /d:sonar.coverageReportPaths=report/SonarQube.xml
+    name: Build
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-dotnet-quality.yml@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+    with:
+      dotnet-test-args: --logger trx --collect "XPlat Code Coverage"
+      mongodb-enabled: true
+      sonar-enabled: ${{ vars.SONAR_ORG != '' }}
+      sonar-host-url: ${{ vars.SONAR_HOST_URL || 'https://sonarcloud.io' }}
+      sonar-organization: ${{ vars.SONAR_ORG }}
+      sonar-project-key: ${{ vars.SONAR_PROJECT_KEY }}
+      sonar-project-name: Sales Portal
+      workflow-parts-version: 13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+    secrets:
+      sonar-token: ${{ secrets.SONAR_TOKEN }}
+
   image-scan:
     name: "Image ${{ matrix.name }}"
     strategy:
@@ -102,10 +60,10 @@ jobs:
           - name: CRM Data Web API
             image-name: salesportal-crmdatawebapi
             image-definition: src/CrmDataWebApi/Dockerfile
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-container-scan.yml@c6d06a61a377a41dc192ce58f08a0b5100d9a2bc
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-container-scan.yml@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
     with:
       image-definition: ${{ matrix.image-definition }}
       image-name: ${{ matrix.image-name }}
       image-path: docker.io/${{ vars.DOCKERHUB_NAMESPACE }}
       image-tag: "1.1.${{ github.run_id }}"
-      workflow-parts-version: c6d06a61a377a41dc192ce58f08a0b5100d9a2bc
+      workflow-parts-version: 13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
