@@ -1,4 +1,4 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 var configuration = new ApplicationConfiguration(builder.Configuration);
 
 builder.Services.AddInfrastructure(configuration.MongoDbConfiguration);

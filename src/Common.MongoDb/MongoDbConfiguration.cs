@@ -1,4 +1,4 @@
-﻿namespace Devpro.Common.MongoDb
+namespace Devpro.Common.MongoDb
 {
     public class MongoDbConfiguration
     {

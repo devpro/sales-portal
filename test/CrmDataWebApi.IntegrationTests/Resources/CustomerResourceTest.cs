@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 
 namespace Devpro.SalesPortal.CrmDataWebApi.IntegrationTests.Resources

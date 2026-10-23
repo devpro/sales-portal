@@ -1,4 +1,4 @@
-﻿using Devpro.Common.DataModel;
+using Devpro.Common.DataModel;
 
 namespace Devpro.SalesPortal.SalesDomain.Dtos
 {

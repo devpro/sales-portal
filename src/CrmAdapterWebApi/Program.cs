@@ -1,4 +1,4 @@
-﻿// creates the builder
+// creates the builder
 var builder = WebApplication.CreateBuilder(args);
 var configuration = new ApplicationConfiguration(builder.Configuration);
 

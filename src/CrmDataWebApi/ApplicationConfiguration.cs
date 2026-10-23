@@ -1,4 +1,4 @@
-﻿namespace Devpro.SalesPortal.CrmDataWebApi
+namespace Devpro.SalesPortal.CrmDataWebApi
 {
     public class ApplicationConfiguration(IConfigurationRoot configurationRoot) : WebApiConfiguration(configurationRoot)
     {

@@ -1,4 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 
 namespace Devpro.Common.MongoDb

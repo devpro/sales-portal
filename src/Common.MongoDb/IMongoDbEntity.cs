@@ -1,4 +1,4 @@
-﻿using MongoDB.Bson;
+using MongoDB.Bson;
 
 namespace Devpro.Common.MongoDb
 {
