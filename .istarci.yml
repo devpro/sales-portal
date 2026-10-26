@@ -3,6 +3,7 @@
 runner:
   image: ghcr.io/devpro/ubuntu-dotnet:latest
   images:
+    "markup-lint*": ghcr.io/devpro/debian-node:latest
     "image-scan*": ghcr.io/devpro/debian-node:latest
   # The scan job builds images and scans them through the host Docker daemon.
   docker: ["image-scan*"]
