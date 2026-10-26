@@ -33,7 +33,7 @@ permissions:
 jobs:
   build:
     name: Build
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-dotnet-quality.yml@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-dotnet-quality.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
     with:
       dotnet-test-args: --logger trx --collect "XPlat Code Coverage"
       mongodb-enabled: true
@@ -42,7 +42,7 @@ jobs:
       sonar-organization: ${{ vars.SONAR_ORG }}
       sonar-project-key: ${{ vars.SONAR_PROJECT_KEY }}
       sonar-project-name: Sales Portal
-      workflow-parts-version: 13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+      workflow-parts-version: 591b0c7bfba6fbc7b0cab7d896447e0732b819de
     secrets:
       sonar-token: ${{ secrets.SONAR_TOKEN }}
 
@@ -60,10 +60,10 @@ jobs:
           - name: CRM Data Web API
             image-name: salesportal-crmdatawebapi
             image-definition: src/CrmDataWebApi/Dockerfile
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-container-scan.yml@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-container-scan.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
     with:
       image-definition: ${{ matrix.image-definition }}
       image-name: ${{ matrix.image-name }}
       image-path: docker.io/${{ vars.DOCKERHUB_NAMESPACE }}
       image-tag: "1.1.${{ github.run_id }}"
-      workflow-parts-version: 13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+      workflow-parts-version: 591b0c7bfba6fbc7b0cab7d896447e0732b819de

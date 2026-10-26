@@ -38,7 +38,7 @@ jobs:
           - name: CRM Data Web API
             image-name: salesportal-crmdatawebapi
             image-definition: src/CrmDataWebApi/Dockerfile
-    uses: devpro/github-workflow-parts/.github/workflows/reusable-container-publication.yml@13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-container-publication.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
     with:
       create-latest: ${{ github.ref_name == 'main' }}
       image-definition: ${{ matrix.image-definition }}
@@ -46,7 +46,7 @@ jobs:
       image-path: docker.io/${{ vars.DOCKERHUB_NAMESPACE }}
       image-platform: linux/amd64
       image-tag: "1.1.${{ github.run_id }}"
-      workflow-parts-version: 13ac7ccf4ba593797f8c80a75f2559ce0fc2d09e
+      workflow-parts-version: 591b0c7bfba6fbc7b0cab7d896447e0732b819de
     secrets:
       container-registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
       container-registry-username: ${{ secrets.DOCKERHUB_USERNAME }}
