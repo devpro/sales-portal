@@ -31,6 +31,10 @@ permissions:
   pull-requests: write
 
 jobs:
+  markup-lint:
+    name: Markup
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-markup-lint.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
+
   build:
     name: Build
     uses: devpro/github-workflow-parts/.github/workflows/reusable-dotnet-quality.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
