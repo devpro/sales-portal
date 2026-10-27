@@ -1,6 +1,6 @@
 services:
   front:
-    image: salesportalwasmapp
+    image: salesportalwasmapp:latest${IMAGE_SUFFIX:-}
     build:
       context: .
       dockerfile: ./src/BlazorWasmApp/Dockerfile
@@ -10,8 +10,10 @@ services:
       - "9001:80"
     depends_on:
       - adapter
+    cap_add:
+      - SYS_PTRACE
   adapter:
-    image: crmadapterwebapi
+    image: crmadapterwebapi:latest${IMAGE_SUFFIX:-}
     build:
       context: .
       dockerfile: ./src/CrmAdapterWebApi/Dockerfile
@@ -31,8 +33,10 @@ services:
       - "9002:8080"
     depends_on:
       - data
+    cap_add:
+      - SYS_PTRACE
   data:
-    image: crmdatawebapi
+    image: crmdatawebapi:latest${IMAGE_SUFFIX:-}
     build:
       context: .
       dockerfile: ./src/CrmDataWebApi/Dockerfile
@@ -55,8 +59,10 @@ services:
     depends_on:
       - mongodb
       - otelcollector
+    cap_add:
+      - SYS_PTRACE
   otelcollector:
-    image: otel/opentelemetry-collector-contrib
+    image: otel/opentelemetry-collector-contrib:latest${IMAGE_SUFFIX:-}
     command: [--config=/etc/otel-collector-config.yaml]
     volumes:
       - ./.docker/otel-collector-config.yaml:/etc/otel-collector-config.yaml
@@ -74,7 +80,11 @@ services:
       - 55679:55679 # zpages extension
     depends_on:
       - mongodb
+    cap_add:
+      - SYS_PTRACE
   mongodb:
-    image: mongo:8.0
+    image: mongo:9.0${IMAGE_SUFFIX:-}
     ports:
       - "27017:27017"
+    cap_add:
+      - SYS_PTRACE

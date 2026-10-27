@@ -1,4 +1,4 @@
-﻿namespace Devpro.SalesPortal.CrmAdapterWebApi.Repositories
+namespace Devpro.SalesPortal.CrmAdapterWebApi.Repositories
 {
     /// <summary>
     /// References:

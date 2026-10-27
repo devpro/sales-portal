@@ -1,4 +1,4 @@
-﻿using Devpro.Common.AspNetCore.WebApi.Configuration;
+using Devpro.Common.AspNetCore.WebApi.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Devpro.Common.AspNetCore.WebApi.DependencyInjection

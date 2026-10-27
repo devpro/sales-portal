@@ -1,4 +1,4 @@
-﻿namespace Devpro.SalesPortal.CrmAdapterWebApi.Repositories
+namespace Devpro.SalesPortal.CrmAdapterWebApi.Repositories
 {
     public class CustomerRepository : CrudRepositoryBase<CustomerDto>
     {

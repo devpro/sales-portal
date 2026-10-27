@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 
 namespace Devpro.SalesPortal.CrmDataWebApi.Mapping
 {

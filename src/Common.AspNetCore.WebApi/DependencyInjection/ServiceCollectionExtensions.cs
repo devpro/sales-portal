@@ -1,4 +1,4 @@
-﻿using Devpro.Common.AspNetCore.WebApi.Configuration;
+using Devpro.Common.AspNetCore.WebApi.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 

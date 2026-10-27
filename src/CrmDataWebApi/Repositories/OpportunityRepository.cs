@@ -1,4 +1,4 @@
-﻿using Devpro.SalesPortal.CrmDataWebApi.Entities;
+using Devpro.SalesPortal.CrmDataWebApi.Entities;
 using Devpro.SalesPortal.SalesDomain.Dtos;
 
 namespace Devpro.SalesPortal.CrmDataWebApi.Repositories

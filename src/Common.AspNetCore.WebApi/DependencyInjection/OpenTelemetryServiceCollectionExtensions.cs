@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using Devpro.Common.AspNetCore.WebApi.Configuration;
 using Microsoft.Extensions.DependencyInjection;

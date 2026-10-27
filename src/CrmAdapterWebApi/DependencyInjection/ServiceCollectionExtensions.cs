@@ -1,4 +1,4 @@
-﻿using Devpro.SalesPortal.CrmAdapterWebApi.Repositories;
+using Devpro.SalesPortal.CrmAdapterWebApi.Repositories;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Devpro.SalesPortal.CrmAdapterWebApi.DependencyInjection

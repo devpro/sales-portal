@@ -6,7 +6,7 @@ Grafana:
 
 - [OpenTelemetry best practices: A user's guide to getting started with OpenTelemetry](https://grafana.com/blog/2023/12/18/opentelemetry-best-practices-a-users-guide-to-getting-started-with-opentelemetry/) - December 18, 2023
 - [A practical guide to data collection with OpenTelemetry and Prometheus](https://grafana.com/blog/2023/07/20/a-practical-guide-to-data-collection-with-opentelemetry-and-prometheus/) - July 20, 2023
-- [New in Grafana 9.1: Trace to metrics allows users to navigate from a trace span to a selected data source](https://grafana.com/blog/2022/08/18/new-in-grafana-9.1-trace-to-metrics-allows-users-to-navigate-from-a-trace-span-to-a-selected-data-source/) - August 18, 2022
+- [New in Grafana 9.1: Trace to metrics](https://grafana.com/blog/2022/08/18/new-in-grafana-9.1-trace-to-metrics-allows-users-to-navigate-from-a-trace-span-to-a-selected-data-source/) - August 18, 2022
 - [How to collect Prometheus metrics with the OpenTelemetry Collector and Grafana](https://grafana.com/blog/2022/05/10/how-to-collect-prometheus-metrics-with-the-opentelemetry-collector-and-grafana/) - May 10, 2022
 
 Microsoft:

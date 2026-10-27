@@ -1,4 +1,4 @@
-﻿using MongoDB.Bson;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace Devpro.SalesPortal.CrmDataWebApi.Repositories

@@ -1,9 +1,7 @@
 # purpose: run Continuous Delivery / Packaging (package)
 # actions:
 #   - https://github.com/marketplace/actions/checkout
-#   - https://github.com/marketplace/actions/docker-login
-#   - https://github.com/marketplace/actions/docker-metadata-action (TODO)
-#   - https://github.com/marketplace/actions/build-and-push-docker-images (TODO)
+#   - https://github.com/devpro/github-workflow-parts
 # images:
 #   - https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
 # variables:
@@ -17,41 +15,38 @@ name: PKG
 on:
   push:
     branches: ["main"]
-    # tags: [ 'v*.*.*' ]
   workflow_dispatch: {}
 
+permissions:
+  contents: read
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout source code
-        uses: actions/checkout@v5
-      - name: Login to container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.CONTAINER_REGITRY_DOMAIN }}
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Build container images
-        run: |
-            docker build . --file src/BlazorWasmApp/Dockerfile --tag $IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }}
-            docker build . --file src/CrmAdapterWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}
-            docker build . --file src/CrmDataWebApi/Dockerfile --tag $IMAGE_FOLDER/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}
-      - name: Push image to container registry
-        run: |
-          docker push $IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }}
-          docker push $IMAGE_FOLDER/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }}
-          docker push $IMAGE_FOLDER/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }}
-      - name: Push latest tag to container registry
-        if: ${{ github.ref_name == 'main' }}
-        run: |
-          docker tag $IMAGE_FOLDER/salesportal-wasmapp:${{ env.IMAGE_TAG }} $IMAGE_FOLDER/salesportal-wasmapp:latest
-          docker push $IMAGE_FOLDER/salesportal-wasmapp:latest
-          docker tag $IMAGE_FOLDER/salesportal-crmadapterwebapi:${{ env.IMAGE_TAG }} $IMAGE_FOLDER/salesportal-crmadapterwebapi:latest
-          docker push $IMAGE_FOLDER/salesportal-crmadapterwebapi:latest
-          docker tag $IMAGE_FOLDER/salesportal-crmdatawebapi:${{ env.IMAGE_TAG }} $IMAGE_FOLDER/salesportal-crmdatawebapi:latest
-          docker push $IMAGE_FOLDER/salesportal-crmdatawebapi:latest
-    env:
-      CONTAINER_REGITRY_DOMAIN: docker.io
-      IMAGE_FOLDER: ${{ vars.DOCKERHUB_NAMESPACE }}
-      IMAGE_TAG: 1.1.${GITHUB_RUN_ID}
+  image-publication:
+    name: "Image ${{ matrix.name }}"
+    permissions:
+      contents: read
+      id-token: write
+    strategy:
+      matrix:
+        include:
+          - name: Blazor WebAssembly App
+            image-name: salesportal-wasmapp
+            image-definition: src/BlazorWasmApp/Dockerfile
+          - name: CRM Adapter Web API
+            image-name: salesportal-crmadapterwebapi
+            image-definition: src/CrmAdapterWebApi/Dockerfile
+          - name: CRM Data Web API
+            image-name: salesportal-crmdatawebapi
+            image-definition: src/CrmDataWebApi/Dockerfile
+    uses: devpro/github-workflow-parts/.github/workflows/reusable-container-publication.yml@591b0c7bfba6fbc7b0cab7d896447e0732b819de
+    with:
+      create-latest: ${{ github.ref_name == 'main' }}
+      image-definition: ${{ matrix.image-definition }}
+      image-name: ${{ matrix.image-name }}
+      image-path: docker.io/${{ vars.DOCKERHUB_NAMESPACE }}
+      image-platform: linux/amd64
+      image-tag: "1.1.${{ github.run_id }}"
+      workflow-parts-version: 591b0c7bfba6fbc7b0cab7d896447e0732b819de
+    secrets:
+      container-registry-password: ${{ secrets.DOCKERHUB_TOKEN }}
+      container-registry-username: ${{ secrets.DOCKERHUB_USERNAME }}

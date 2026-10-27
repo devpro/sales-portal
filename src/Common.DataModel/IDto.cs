@@ -1,4 +1,4 @@
-﻿namespace Devpro.Common.DataModel
+namespace Devpro.Common.DataModel
 {
     public interface IDto
     {

@@ -1,4 +1,4 @@
-﻿using Devpro.SalesPortal.BlazorWasmApp;
+using Devpro.SalesPortal.BlazorWasmApp;
 using Devpro.SalesPortal.BlazorWasmApp.Configuration;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;

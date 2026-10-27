@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <AssemblyName>Devpro.SalesPortal.CrmAdapterWebApi</AssemblyName>
     <RootNamespace>Devpro.SalesPortal.CrmAdapterWebApi</RootNamespace>
     <ProjectGuid>{190D535C-CBD8-4EC6-BA2D-6B324F3A3638}</ProjectGuid>
